@@ -1,6 +1,6 @@
 # jamMT Mobile
 
-The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/). I've always wanted a more userfriendly version of it so this is my attempt to create one.
+The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/). I've always wanted a more user friendly version of it so this is my attempt to create one. I've checked the answer from this app against alamode and jamMT itself. 
 
 ## 🚀 Quick Start (Easiest Option)
 
@@ -127,12 +127,6 @@ This project is based on the original **jamMT** (just another mode matching tool
 - Full desktop GUI
 
 For the original desktop application and more advanced features, visit [Ian MacMillan's jamMT page](https://www.ian-macmillan.com/JamMT/).
-
----
-
-## 📝 License
-
-The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/).
 
 ---
 
