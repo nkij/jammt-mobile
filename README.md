@@ -6,7 +6,7 @@ The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/
 
 For a quick calculation without any setup, simply open the standalone HTML file:
 
-**📄 [`laser-optics-calculator.html`](laser-optics-calculator.html)**
+**📄 [`jamMT-mobile.html`](jamMT-mobile.html)**
 
 Just open this file in any modern web browser - no installation, no dependencies, no setup required! Perfect for:
 - Quick beam propagation calculations
@@ -180,7 +180,7 @@ The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/
 
 ## 💡 Quick Links
 
-- **Quick Start**: Open [`laser-optics-calculator.html`](laser-optics-calculator.html) in your browser
+- **Quick Start**: Open [`jamMT-mobile.html`](jamMT-mobile.html) in your browser
 - **Mobile (Easy)**: Check out [`LaserOpticsCalculatorExpo/`](LaserOpticsCalculatorExpo/)
 - **Mobile (Full)**: Check out [`LaserOpticsCalculator/`](LaserOpticsCalculator/)
 
