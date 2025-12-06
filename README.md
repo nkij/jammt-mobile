@@ -22,11 +22,9 @@ The HTML version includes:
 
 ---
 
-## 📱 Mobile App Options
+## 📱 Mobile App Option
 
-For a more complete experience with mobile-friendly interfaces, choose one of the mobile app versions:
-
-### Option 1: Expo Version (Easiest Mobile Setup)
+For a more complete experience with mobile-friendly interfaces, use the Expo mobile app version:
 
 **📁 [`LaserOpticsCalculatorExpo/`](LaserOpticsCalculatorExpo/)**
 
@@ -46,46 +44,23 @@ npx expo start
 
 See the [full README](LaserOpticsCalculatorExpo/README.md) for detailed instructions.
 
-### Option 2: React Native (Full Native Build)
-
-**📁 [`LaserOpticsCalculator/`](LaserOpticsCalculator/)**
-
-The full React Native version provides more control and customization:
-
-- ✅ **Native Performance**: Full iOS/Android native builds
-- ✅ **More Control**: Access to native modules and APIs
-- ✅ **Production Ready**: Can build standalone apps
-- ⚠️ **More Setup**: Requires Xcode (iOS) or Android Studio (Android)
-
-**Setup:**
-```bash
-cd LaserOpticsCalculator
-npm install
-# For iOS (macOS only):
-cd ios && pod install && cd ..
-npm run ios    # or npm run android
-```
-
-See the [full README](LaserOpticsCalculator/README.md) for detailed instructions.
-
 ---
 
 ## 📊 Feature Comparison
 
-| Feature | HTML File | Expo Version | React Native |
-|---------|-----------|--------------|--------------|
-| **Setup Time** | Instant | ~5 minutes | ~15-30 minutes |
-| **Dependencies** | None | Node.js + Expo Go | Full dev environment |
-| **Platform** | Browser | iOS/Android/Web | iOS/Android |
-| **Offline Use** | ✅ | ✅ | ✅ |
-| **Mobile Optimized** | ⚠️ Limited | ✅ | ✅ |
-| **Customization** | ❌ | ⚠️ Limited | ✅ Full |
+| Feature | HTML File | Expo Version |
+|---------|-----------|--------------|
+| **Setup Time** | Instant | ~5 minutes |
+| **Dependencies** | None | Node.js + Expo Go |
+| **Platform** | Browser | iOS/Android/Web |
+| **Offline Use** | ✅ | ✅ |
+| **Mobile Optimized** | ⚠️ Limited | ✅ |
 
 ---
 
 ## 🔬 What Can You Calculate?
 
-All versions provide the same core functionality:
+Both versions provide the same core functionality:
 
 - **Beam Propagation**: Calculate beam radius at any position
 - **Rayleigh Range**: Determine beam waist characteristics
@@ -94,24 +69,13 @@ All versions provide the same core functionality:
 - **Beam Visualization**: Graphical representation of beam propagation
 - **Gouy Phase**: Calculate phase shift through optical systems
 
-### Example Calculations
 
-**Input Parameters:**
-- Beam Waist: 170 μm
-- Waist Position: 900 mm
-- Wavelength: 1550 nm
-- M² Factor: 1.0
-
-**With Lens (f = 100 mm):**
-- Output Beam Waist: ~29.6 μm
-- New Waist Position: Calculated based on lens position
-- Focused Spot Size: ~2.96 μm
 
 ---
 
 ## 🛠️ Technical Details
 
-All versions implement the same mathematical foundation:
+Both versions implement the same mathematical foundation:
 
 ### Core Calculations
 
@@ -136,7 +100,6 @@ The calculations are based on standard Gaussian beam optics theory and match the
 
 - **HTML Version**: Just open the file and start using it!
 - **Expo Version**: See [`LaserOpticsCalculatorExpo/README.md`](LaserOpticsCalculatorExpo/README.md)
-- **React Native Version**: See [`LaserOpticsCalculator/README.md`](LaserOpticsCalculator/README.md)
 
 ---
 
@@ -151,11 +114,6 @@ The calculations are based on standard Gaussian beam optics theory and match the
 - You want a mobile app experience
 - You want to test on your phone quickly
 - You prefer easier setup
-
-**Use the React Native version if:**
-- You want to build a production app
-- You need maximum customization
-- You want full native performance
 
 ---
 
@@ -181,8 +139,7 @@ The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/
 ## 💡 Quick Links
 
 - **Quick Start**: Open [`jamMT-mobile.html`](jamMT-mobile.html) in your browser
-- **Mobile (Easy)**: Check out [`LaserOpticsCalculatorExpo/`](LaserOpticsCalculatorExpo/)
-- **Mobile (Full)**: Check out [`LaserOpticsCalculator/`](LaserOpticsCalculator/)
+- **Mobile App**: Check out [`LaserOpticsCalculatorExpo/`](LaserOpticsCalculatorExpo/)
 
 ---
 

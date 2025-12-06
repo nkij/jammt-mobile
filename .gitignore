@@ -40,3 +40,6 @@ build/
 # Java compiled classes (from original JAMMT)
 *.class
 
+# React Native version (removed - not intended for public distribution)
+LaserOpticsCalculator/
+
