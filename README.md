@@ -1,6 +1,6 @@
 # jamMT Mobile
 
-A collection of tools for Gaussian beam propagation calculations and optical system design, based on the original jamMT (just another mode matching tool) functionality. Available in multiple formats to suit your needs.
+The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/). I've always wanted a more userfriendly version of it so this is my attempt to create one.
 
 ## 🚀 Quick Start (Easiest Option)
 
@@ -174,7 +174,7 @@ For the original desktop application and more advanced features, visit [Ian MacM
 
 ## 📝 License
 
-This project maintains compatibility with the original jamMT application's functionality while providing modern, accessible interfaces. The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/).
+The original jamMT was created by [Ian MacMillan](https://www.ian-macmillan.com/JamMT/).
 
 ---
 
