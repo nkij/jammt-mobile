@@ -240,34 +240,6 @@
             display: inline-block;
         }
 
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 16px;
-            color: #333;
-            font-weight: bold;
-        }
-
         .error {
             background: #ffebee;
             color: #c62828;
@@ -311,21 +283,21 @@
                             <span class="symbol">w₀</span>
                             Beam Waist (μm)
                         </label>
-                        <input type="number" id="beam-waist" value="170" step="0.1">
+                        <input type="number" id="beam-waist" value="160" step="0.1">
                     </div>
                     <div class="input-field">
                         <label for="waist-position">
                             <span class="symbol">z₀</span>
                             Waist Position (mm)
                         </label>
-                        <input type="number" id="waist-position" value="900" step="0.1">
+                        <input type="number" id="waist-position" value="0" step="0.1">
                     </div>
                     <div class="input-field">
                         <label for="wavelength">
                             <span class="symbol">λ</span>
                             Wavelength (nm)
                         </label>
-                        <input type="number" id="wavelength" value="1550" step="0.1">
+                        <input type="number" id="wavelength" value="1064" step="0.1">
                     </div>
                     <div class="input-field">
                         <label for="m2-factor">
@@ -352,14 +324,14 @@
                             <span class="symbol">f</span>
                             Focal Length (mm)
                         </label>
-                        <input type="number" id="focal-length" value="100" step="0.1">
+                        <input type="number" id="focal-length" value="175" step="0.1">
                     </div>
                     <div class="input-field">
                         <label for="lens-position">
                             <span class="symbol">z</span>
                             Position (mm)
                         </label>
-                        <input type="number" id="lens-position" value="0" step="0.1">
+                        <input type="number" id="lens-position" value="500" step="0.1">
                     </div>
                     <div class="input-field">
                         <label for="lens-diameter">
@@ -434,16 +406,6 @@
 
                 <div class="chart-container">
                     <h3>Beam Propagation Visualization</h3>
-                    <div class="stats-container">
-                        <div class="stat-item">
-                            <span class="stat-label">Max Radius:</span>
-                            <span class="stat-value" id="max-radius">-</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Min Radius:</span>
-                            <span class="stat-value" id="min-radius">-</span>
-                        </div>
-                    </div>
                     <div class="chart-wrapper">
                         <div id="beam-chart-container"></div>
                     </div>
@@ -662,12 +624,6 @@
                         w: beamRadius
                     });
                 }
-
-                // Calculate and display stats
-                const maxRadius = Math.max(...propagationData.map(p => p.w)) * 1e6;
-                const minRadius = Math.min(...propagationData.map(p => p.w)) * 1e6;
-                document.getElementById('max-radius').textContent = maxRadius.toFixed(2) + ' μm';
-                document.getElementById('min-radius').textContent = minRadius.toFixed(2) + ' μm';
 
                 // Now create SVG visualization like mobile version
                 const svgContainer = document.getElementById('beam-chart-container');
