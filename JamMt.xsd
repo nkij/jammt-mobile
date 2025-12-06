@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xsd:element name="JamMt">
+    <xsd:complexType>
+      <xsd:all>
+
+        <xsd:element name="Beam">
+          <xsd:complexType>
+            <xsd:attribute name="w0" type="xsd:double" use="required"/>
+            <xsd:attribute name="z0" type="xsd:double" use="required"/>
+            <xsd:attribute name="lambda" type="xsd:double" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="LensSet" maxOccurs="3">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Lens" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:attritute name="Name" type="xsd:string"/>
+                  <xsd:attritute name="z" type="xsd:double" use="required"/>
+                  <xsd:attritute name="f" type="xsd:double" use="required"/>
+                  <xsd:attritute name="a" type="xsd:double"/>
+                  <xsd:attritute name="d" type="xsd:double"/>
+                  <xsd:attritute name="gid" type="xsd:positiveInteger"/>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="Name" type="xsd:string" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="SubstrateSet" maxOccurs="3">
+           <xsd:complexType>
+            <xsd:attribute name="Name" type="xsd:string" use="required"/>
+            <xsd:element name="Substrate" type="substrate" maxOccurs="unbounded"/>
+            <xsd:complexType name="substrate">
+              <xsd:attritute name="Name" type="xsd:string"/>
+              <xsd:attritute name="z" type="xsd:double" use="required"/>
+              <xsd:attritute name="n" type="xsd:double" use="required"/>
+              <xsd:attritute name="R1" type="xsd:double" use="required"/>
+              <xsd:attritute name="R2" type="xsd:double" use="required"/>
+              <xsd:attritute name="a" type="xsd:double"/>
+              <xsd:attritute name="d" type="xsd:double"/>
+              <xsd:attritute name="gid" type="xsd:positiveInteger"/>
+            </xsd:complexType>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="Settings">
+          <xsd:complexType>
+            <xsd:attribute name="yAxis" type="xsd:string"/>
+            <xsd:attribute name="y2Axis" type="xsd:string"/>
+            <xsd:attribute name="autoscale" type="xsd:boolean"/>
+            <xsd:attribute name="xMin" type="xsd:string"/>
+            <xsd:attribute name="xMax" type="xsd:string"/>
+            <xsd:attribute name="yMin" type="xsd:string"/>
+            <xsd:attribute name="yMax" type="xsd:string"/>
+            <xsd:attribute name="y2Min" type="xsd:string"/>
+            <xsd:attribute name="y2Max" type="xsd:string"/>
+            <xsd:attribute name="resolution" type="xsd:positiveInteger"/>
+            <xsd:attribute name="info" type="xsd:boolean"/>
+            <xsd:attribute name="openPath" type="xsd:string"/>
+            <xsd:attribute name="savePath" type="xsd:string"/>
+            <xsd:attribute name="dataPath" type="xsd:string"/>
+            <xsd:attribute name="exportPath" type="xsd:string"/>
+          </xsd:complexType>
+        </xsd:element>
+
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

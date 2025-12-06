@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JamMt>
+  <!-- JamMt database file for the group 'Quanteninterferometrie' at AEI -->
+  <SubstrateSet Name="SSavail">
+    <Substrate Name="Lens R=25mm" z="0e-9" n="1.443998278952981" a="0.0224" d="0.0050" gid="0" R1="Infinity" R2="0.02502" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=-25mm" z="1e-9" n="1.443998278952981" a="0.0224" d="0.0020" gid="0" R1="Infinity" R2="-0.025" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=50mm" z="2e-9" n="1.443998278952981" a="0.0224" d="0.0040" gid="0" R1="Infinity" R2="0.05" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=-50mm" z="3e-9" n="1.443998278952981" a="0.0224" d="0.0030" gid="0" R1="Infinity" R2="-0.05" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=75mm" z="4e-9" n="1.443998278952981" a="0.0224" d="0.0025" gid="0" R1="Infinity" R2="0.075" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=-75mm" z="5e-9" n="1.443998278952981" a="0.0224" d="0.0025" gid="0" R1="Infinity" R2="-0.075" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=100mm" z="6e-9" n="1.4439982789529813" a="0.0224" d="0.0025" gid="0" R1="Infinity" R2="0.1" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+    <Substrate Name="Lens R=-100mm" z="7e-9" n="1.443998278952981" a="0.0224" d="0.0025" gid="0" R1="Infinity" R2="-0.1" angle="0.0" mirror="0" coating="none" Material="FusedSilica" />
+  </SubstrateSet>
+  <Material Name="FusedSilica" B1="0.669422575" B2="0.434583937" B3="0.871694723" C1="4.448011239E-15" C2="1.32847049E-14" C3="9.53414824E-11" />
+</JamMt>
+

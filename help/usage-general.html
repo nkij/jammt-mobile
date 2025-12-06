@@ -1,0 +1,93 @@
+<html>
+  <h2> Getting started with JamMt </h2>
+  When you start JamMt for the first time you will only see the profile of a
+  Gaussian beam with a default radius of 370 &#956;m and the waist located at
+  the origin.
+
+  <h3> Adding a thin lens </h3>
+  Let's add a lens to the plot using 'Edit-&gt;Add substrate' (by the way: the
+  word 'substrate' means a certain material with refractive index, thickness,
+  two interface (that may be curved), etc.; it can be used to simulate thick (i.e.
+  real) lenses). Per default you can add a thin lens with a focal length of 0.1
+  m, so just press 'Ok' to start playing with JamMt. After you've done that the
+  lens will be shown in the plot. Now you can drag it with the mouse and see the
+  behaviour of the beam online.
+
+  <h3> Get some information </h3>
+  The status bar at the bottom of the JamMt window shows you the actual waist
+  size as well as its position of the resulting beam (i.e. the beam after the rightmost
+  substrate). You can get additional info in form of a tooltip if you point the mouse over a lens or
+  the beam. You can also use 'View-&gt;Verbose' to constantly show a box
+  containing information about a substrate. In that case the initial beam
+  parameters will be shown in the statusbar, too.
+
+  <h3> Beam analyzer </h3>
+  To get information about the beam at a specific location use 'Edit-&gt;Add
+  beam analyzer' and choose a name and a position in the window that just popped
+  up. You can interact with an analyzer the same way as you would do with a
+  lens. An overview of all analyzer can be displayed using 'Window-&gt;Beam
+  analyzer' from the menu bar. From this window you can get even more
+  information about the beam.
+
+  <h3> Thick lenses </h3>
+  Now it's time to add another lens, so choose 'Edit-&gt;Add substrate' again
+  and add a thick lens by clicking the button 'Advanced'. Now you have access
+  to all text fields. If you choose for example 'n=1.5' and a radius of
+  curvature of -/+ 200mm (left/right), you will get a lens with a focal length
+  of approximately 200 mm.
+
+  <h3> Groups </h3>
+  Now try to collimate your beam and after that press a number key (1-9). This
+  will add the currently active lens to the group with the given number. Press
+  'TAB' to activate the other lens and press the same number key again. Now the
+  two lenses are grouped and you can move them together. To ungroup a single
+  lens press the key 'u' or press 'Shift-u' to ungroup all lenses in the
+  current group.
+
+  <h3> Simulate cavities </h3>
+  The next step is to create a linear cavity. To achieve that we will change the
+  two lenses slightly to represent cavity endmirrors (NOTE: a cavity mirror has
+  to be a thick lens). Double click one of your substrates and change the
+  'inner' radius of curvature to 300 mm, say. Do the same with the other
+  substrate. You can see from the plot if you
+  got the signs right to form a symmetric cavity. Now mark the left mirror by
+  pressing 'Shift-8' and the right one by pressing 'Shift-9'. Now you will be
+  provided with a dialog on which you can further specify the cavity. For now
+  giving just a name will be sufficient. After pressing 'Ok', a window
+  containing some information about your cavity (including the modematching 'V'
+  and the stability parameter 'g') will be shown. You can now change the cavity
+  length and see how the eigenmode changes.
+
+  <h3> Mode matching made simple </h3>
+  Now we'll have a look at the fitting routine that automatically solves your
+  modematching problems. First delete your substrates using the 'Del' key and go
+  to 'Tools-&gt;Modematching assistant'. In this window you can specify the initial beam
+  parameters, the parameters of the target beam, the range in between the lenses
+  should be moved, as well as the desired visibility (overlap between initial
+  and target waist) and the number of lenses that should be used for the
+  modematching (this is currently limited to three lenses at most). The lenses
+  that are used for the fit can be edited by pressing 'Edit lenses'. The
+  default is to use thin lenses with a focal length of +/- 100 mm. When you've
+  edited everything to your needs, press 'Start search' to start the search for possible
+  modematchings.<br>
+  When the search has finished, you can choose a solution from the list and it
+  will be shown in the plot. If you got the message that all solutions were
+  filtered out, then you may try to change the filter settings (click 'Result filter'),
+  or to be less restrictive on the settings for the modematching.<br><br>
+
+  <h3> Learn more </h3>
+  This should be enough to get started with JamMt. For further information
+  please browse the documentation. Here are a few things that you might be
+  interested in:
+  <ul>
+    <li> You can also plot the Gouy phase and the beams radius of curvature
+    ('View-&gt;Display settings') </li>
+    <li> Materials can be defined using their Sellmeier equation
+    ('Edit-&gt;New material') </li>
+    <li> From the file menu you can export the plot to various formats </li>
+    <li> You can import a database containing materials and substrate
+    definitions (see the example database on our web site) </li>
+    <li> JamMt reads a config file at startup, so that you can customize the
+    settings to your needs ('File-&gt;Settings') </li>
+  </ul>
+</html>

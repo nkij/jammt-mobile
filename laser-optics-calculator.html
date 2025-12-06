@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jammt Mobile - Gaussian Beam Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6200ee 0%, #03dac4 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #6200ee;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .symbol {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #6200ee;
+        }
+
+        .input-field input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #6200ee;
+            box-shadow: 0 0 0 3px rgba(98, 0, 238, 0.1);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #6200ee 0%, #03dac4 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(98, 0, 238, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card h3 {
+            color: #6200ee;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: #333;
+            text-align: right;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h3 {
+            color: #6200ee;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            max-height: 500px;
+        }
+
+        #beam-chart-container {
+            min-width: 1000px;
+            overflow-x: auto;
+        }
+
+        #beam-chart-container svg {
+            display: block;
+        }
+
+        @media (min-width: 1200px) {
+            #beam-chart-container {
+                min-width: 1200px;
+            }
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-marker {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .legend-line {
+            width: 20px;
+            height: 3px;
+            display: inline-block;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .results {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Jammt Mobile</h1>
+            <p>Gaussian Beam Propagation Analysis</p>
+        </div>
+
+        <div class="content">
+            <div id="error-message" class="error" style="display: none;"></div>
+
+            <!-- Input Parameters -->
+            <div class="section">
+                <h2 class="section-title">Input Beam Parameters</h2>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="beam-waist">
+                            <span class="symbol">w₀</span>
+                            Beam Waist (μm)
+                        </label>
+                        <input type="number" id="beam-waist" value="170" step="0.1">
+                    </div>
+                    <div class="input-field">
+                        <label for="waist-position">
+                            <span class="symbol">z₀</span>
+                            Waist Position (mm)
+                        </label>
+                        <input type="number" id="waist-position" value="900" step="0.1">
+                    </div>
+                    <div class="input-field">
+                        <label for="wavelength">
+                            <span class="symbol">λ</span>
+                            Wavelength (nm)
+                        </label>
+                        <input type="number" id="wavelength" value="1550" step="0.1">
+                    </div>
+                    <div class="input-field">
+                        <label for="m2-factor">
+                            <span class="symbol">M²</span>
+                            M² Factor
+                        </label>
+                        <input type="number" id="m2-factor" value="1.0" step="0.1" min="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Lens Parameters</h2>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="lens-name">
+                            <span class="symbol">⚬</span>
+                            Lens Name
+                        </label>
+                        <input type="text" id="lens-name" value="L1">
+                    </div>
+                    <div class="input-field">
+                        <label for="focal-length">
+                            <span class="symbol">f</span>
+                            Focal Length (mm)
+                        </label>
+                        <input type="number" id="focal-length" value="100" step="0.1">
+                    </div>
+                    <div class="input-field">
+                        <label for="lens-position">
+                            <span class="symbol">z</span>
+                            Position (mm)
+                        </label>
+                        <input type="number" id="lens-position" value="0" step="0.1">
+                    </div>
+                    <div class="input-field">
+                        <label for="lens-diameter">
+                            <span class="symbol">d</span>
+                            Diameter (mm)
+                        </label>
+                        <input type="number" id="lens-diameter" value="25" step="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <button class="button" onclick="calculate()">Calculate Beam Propagation</button>
+
+            <!-- Results -->
+            <div id="results" style="display: none;">
+                <div class="section">
+                    <h2 class="section-title">Calculation Results</h2>
+                    <div class="results">
+                        <div class="result-card">
+                            <h3>Input Beam</h3>
+                            <div class="result-row">
+                                <span class="result-label">Beam Waist:</span>
+                                <span class="result-value" id="input-waist">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Waist Position:</span>
+                                <span class="result-value" id="input-position">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Wavelength:</span>
+                                <span class="result-value" id="input-wavelength">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Rayleigh Range:</span>
+                                <span class="result-value" id="input-rayleigh">-</span>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <h3>Output Beam</h3>
+                            <div class="result-row">
+                                <span class="result-label">New Beam Waist:</span>
+                                <span class="result-value" id="output-waist">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">New Waist Position:</span>
+                                <span class="result-value" id="output-position">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">New Rayleigh Range:</span>
+                                <span class="result-value" id="output-rayleigh">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Magnification:</span>
+                                <span class="result-value" id="magnification">-</span>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <h3>Focusing Results</h3>
+                            <div class="result-row">
+                                <span class="result-label">Focused Spot Size:</span>
+                                <span class="result-value" id="spot-size">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Focal Spot Diameter:</span>
+                                <span class="result-value" id="spot-diameter">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Beam Propagation Visualization</h3>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-label">Max Radius:</span>
+                            <span class="stat-value" id="max-radius">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Min Radius:</span>
+                            <span class="stat-value" id="min-radius">-</span>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <div id="beam-chart-container"></div>
+                    </div>
+                    <div class="legend" id="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-marker" style="background: #6200ee;"></div>
+                            <span>Beam Profile</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-line" style="background: #FF5722;"></div>
+                            <span>Lens</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-marker" style="background: #2196F3; border: 2px solid #1976D2;"></div>
+                            <span>Input Waist (w₀)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-marker" style="background: #FF9800; border: 2px solid #F57C00;"></div>
+                            <span>Output Waist (w₀)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gaussian Beam Calculator
+        class GaussianBeamCalculator {
+            static rayleighRange(w0, lambda, M2 = 1.0) {
+                return (Math.PI * w0 * w0 * M2) / lambda;
+            }
+
+            static beamRadius(beamParams, z) {
+                const { w0, z0, lambda, M2 = 1.0 } = beamParams;
+                const zR = this.rayleighRange(w0, lambda, M2);
+                return w0 * Math.sqrt(1 + Math.pow((z - z0) / zR, 2));
+            }
+
+            static radiusOfCurvature(beamParams, z) {
+                const { w0, z0, lambda, M2 = 1.0 } = beamParams;
+                const zR = this.rayleighRange(w0, lambda, M2);
+                const deltaZ = z - z0;
+                
+                if (Math.abs(deltaZ) < 1e-10) return Infinity;
+                return deltaZ * (1 + Math.pow(zR / deltaZ, 2));
+            }
+
+            static gouyPhase(beamParams, z) {
+                const { w0, z0, lambda, M2 = 1.0 } = beamParams;
+                const zR = this.rayleighRange(w0, lambda, M2);
+                return Math.atan((z - z0) / zR) * (180 / Math.PI);
+            }
+
+            static propagateThroughLens(beamParams, lens) {
+                const { w0, z0, lambda, M2 = 1.0 } = beamParams;
+                const { f } = lens;
+                
+                // Calculate Rayleigh range
+                const zR = this.rayleighRange(w0, lambda, M2);
+                const d = lens.z - z0; // Distance from waist to lens
+                
+                // Calculate beam parameters at lens position
+                const wAtLens = w0 * Math.sqrt(1 + Math.pow(d / zR, 2));
+                const RAtLens = d * (1 + Math.pow(zR / d, 2));
+                
+                // Calculate new waist after lens using thin lens formula
+                // 1/s' = 1/f + 1/s where s = -R (radius of curvature)
+                // For a diverging beam (R > 0), s is negative
+                const s = -RAtLens; // Object distance (negative for diverging beam)
+                const sPrime = 1 / (1 / f + 1 / s); // Image distance
+                
+                // Calculate new waist size using Gaussian beam magnification
+                // For Gaussian beams, the waist magnification is different from geometric magnification
+                const geometricMagnification = sPrime / s;
+                const newW0 = w0 * Math.abs(geometricMagnification);
+                
+                // New waist position is at lens position + image distance
+                const newZ0 = lens.z + sPrime;
+                
+                return {
+                    w0: newW0,
+                    z0: newZ0,
+                    lambda,
+                    M2
+                };
+            }
+
+            static focusedSpotSize(beamParams, focalLength) {
+                const { w0, lambda, M2 = 1.0 } = beamParams;
+                const beamDiameter = 2 * w0;
+                return (4 * focalLength * lambda * M2) / (Math.PI * beamDiameter);
+            }
+
+            static generatePropagationData(beamParams, zRange, resolution = 100) {
+                const [zMin, zMax] = zRange;
+                const step = (zMax - zMin) / (resolution - 1);
+                const data = [];
+                
+                for (let i = 0; i < resolution; i++) {
+                    const z = zMin + i * step;
+                    const w = this.beamRadius(beamParams, z);
+                    const R = this.radiusOfCurvature(beamParams, z);
+                    const phi = this.gouyPhase(beamParams, z);
+                    const intensity = Math.pow(beamParams.w0 / w, 2);
+                    
+                    data.push({ z, w, R, phi, intensity });
+                }
+                
+                return data;
+            }
+        }
+
+        // Format value with appropriate units
+        function formatValue(value, unit, decimals = 3) {
+            if (Math.abs(value) < 1e-10) return '0';
+            if (Math.abs(value) < 1e-3) {
+                return `${(value * 1e6).toFixed(decimals)} μ${unit}`;
+            } else if (Math.abs(value) < 1) {
+                return `${(value * 1e3).toFixed(decimals)} m${unit}`;
+            } else {
+                return `${value.toFixed(decimals)} ${unit}`;
+            }
+        }
+
+
+        function calculate() {
+            try {
+                // Hide error message
+                document.getElementById('error-message').style.display = 'none';
+
+                // Get input values
+                const beamWaist = parseFloat(document.getElementById('beam-waist').value) * 1e-6; // μm to m
+                const waistPosition = parseFloat(document.getElementById('waist-position').value) * 1e-3; // mm to m
+                const wavelength = parseFloat(document.getElementById('wavelength').value) * 1e-9; // nm to m
+                const m2Factor = parseFloat(document.getElementById('m2-factor').value) || 1.0;
+
+                const lensName = document.getElementById('lens-name').value;
+                const focalLength = parseFloat(document.getElementById('focal-length').value) * 1e-3; // mm to m
+                const lensPosition = parseFloat(document.getElementById('lens-position').value) * 1e-3; // mm to m
+                const lensDiameter = parseFloat(document.getElementById('lens-diameter').value) * 1e-3; // mm to m
+
+                // Validate inputs
+                if (isNaN(beamWaist) || beamWaist <= 0) throw new Error('Beam waist must be positive');
+                if (isNaN(wavelength) || wavelength <= 0) throw new Error('Wavelength must be positive');
+                if (isNaN(focalLength) || focalLength <= 0) throw new Error('Focal length must be positive');
+                if (m2Factor <= 0) throw new Error('M² factor must be positive');
+
+                // Create beam and lens parameters
+                const inputBeam = {
+                    w0: beamWaist,
+                    z0: waistPosition,
+                    lambda: wavelength,
+                    M2: m2Factor
+                };
+
+                const lens = {
+                    f: focalLength,
+                    z: lensPosition,
+                    diameter: lensDiameter,
+                    name: lensName
+                };
+
+                // Calculate output beam
+                const outputBeam = GaussianBeamCalculator.propagateThroughLens(inputBeam, lens);
+
+                // Calculate Rayleigh ranges
+                const inputRayleigh = GaussianBeamCalculator.rayleighRange(inputBeam.w0, inputBeam.lambda, inputBeam.M2);
+                const outputRayleigh = GaussianBeamCalculator.rayleighRange(outputBeam.w0, outputBeam.lambda, outputBeam.M2);
+
+                // Calculate focused spot size
+                const focusedSpotSize = GaussianBeamCalculator.focusedSpotSize(inputBeam, lens.f);
+
+                // Display results
+                document.getElementById('input-waist').textContent = formatValue(inputBeam.w0, 'm');
+                document.getElementById('input-position').textContent = formatValue(inputBeam.z0, 'm');
+                document.getElementById('input-wavelength').textContent = formatValue(inputBeam.lambda, 'm');
+                document.getElementById('input-rayleigh').textContent = formatValue(inputRayleigh, 'm');
+
+                document.getElementById('output-waist').textContent = formatValue(outputBeam.w0, 'm');
+                document.getElementById('output-position').textContent = formatValue(outputBeam.z0, 'm');
+                document.getElementById('output-rayleigh').textContent = formatValue(outputRayleigh, 'm');
+                document.getElementById('magnification').textContent = (outputBeam.w0 / inputBeam.w0).toFixed(3);
+
+                document.getElementById('spot-size').textContent = formatValue(focusedSpotSize, 'm');
+                document.getElementById('spot-diameter').textContent = formatValue(focusedSpotSize * 2, 'm');
+
+                // Generate propagation data exactly like mobile version
+                const inputZ = inputBeam.z0;
+                const outputZ = outputBeam.z0;
+                const lensZ = lens.z;
+                
+                // Create a range that covers the entire beam path
+                const startZ = Math.min(inputZ - 0.5, lensZ - 0.5); // 500mm before input waist or lens
+                const endZ = Math.max(outputZ + 0.5, lensZ + 0.5);   // 500mm after output waist or lens
+                
+                // Generate data points for the entire range
+                const numPoints = 200;
+                const propagationData = [];
+                const step = (endZ - startZ) / (numPoints - 1);
+                
+                for (let i = 0; i < numPoints; i++) {
+                    const z = startZ + i * step;
+                    let beamRadius;
+                    
+                    if (z <= lensZ) {
+                        // Before or at lens - use input beam propagation
+                        beamRadius = GaussianBeamCalculator.beamRadius(inputBeam, z);
+                    } else {
+                        // After lens - use output beam propagation
+                        beamRadius = GaussianBeamCalculator.beamRadius(outputBeam, z);
+                    }
+                    
+                    propagationData.push({
+                        z,
+                        w: beamRadius
+                    });
+                }
+
+                // Calculate and display stats
+                const maxRadius = Math.max(...propagationData.map(p => p.w)) * 1e6;
+                const minRadius = Math.min(...propagationData.map(p => p.w)) * 1e6;
+                document.getElementById('max-radius').textContent = maxRadius.toFixed(2) + ' μm';
+                document.getElementById('min-radius').textContent = minRadius.toFixed(2) + ' μm';
+
+                // Now create SVG visualization like mobile version
+                const svgContainer = document.getElementById('beam-chart-container');
+                svgContainer.innerHTML = ''; // Clear previous
+                
+                const plotWidth = 1000;
+                const plotHeight = 400;
+                const padding = { left: 70, right: 30, top: 30, bottom: 50 };
+                
+                // Calculate scale factors
+                const zMin = Math.min(...propagationData.map(p => p.z));
+                const zMax = Math.max(...propagationData.map(p => p.z));
+                const wMax = Math.max(...propagationData.map(p => p.w));
+                
+                const zRange = zMax - zMin;
+                const zScale = (plotWidth - padding.left - padding.right) / zRange;
+                const wScale = ((plotHeight - padding.top - padding.bottom) * 0.8) / (wMax * 2);
+                
+                // Convert positions to screen coordinates
+                const toScreenX = (z) => {
+                    return padding.left + (z - zMin) * zScale;
+                };
+                const toScreenY = (w) => {
+                    return padding.top + (plotHeight - padding.top - padding.bottom) / 2 - w * wScale;
+                };
+                const toScreenYNeg = (w) => {
+                    return padding.top + (plotHeight - padding.top - padding.bottom) / 2 + w * wScale;
+                };
+                
+                // Create SVG
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', plotWidth);
+                svg.setAttribute('height', plotHeight);
+                svg.setAttribute('viewBox', `0 0 ${plotWidth} ${plotHeight}`);
+                svg.style.display = 'block';
+                
+                // Create defs for gradient
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                gradient.setAttribute('id', 'beamGradient');
+                gradient.setAttribute('x1', '0%');
+                gradient.setAttribute('y1', '0%');
+                gradient.setAttribute('x2', '0%');
+                gradient.setAttribute('y2', '100%');
+                const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop1.setAttribute('offset', '0%');
+                stop1.setAttribute('stop-color', '#4CAF50');
+                stop1.setAttribute('stop-opacity', '0.8');
+                const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                stop2.setAttribute('offset', '100%');
+                stop2.setAttribute('stop-color', '#4CAF50');
+                stop2.setAttribute('stop-opacity', '0.2');
+                gradient.appendChild(stop1);
+                gradient.appendChild(stop2);
+                defs.appendChild(gradient);
+                svg.appendChild(defs);
+                
+                // Create grid lines (every 200mm for x-axis)
+                const zMinMm = zMin * 1000;
+                const zMaxMm = zMax * 1000;
+                const tickInterval = 200; // 200mm as requested
+                const startTick = Math.ceil(zMinMm / tickInterval) * tickInterval;
+                const endTick = Math.floor(zMaxMm / tickInterval) * tickInterval;
+                
+                for (let tick = startTick; tick <= endTick; tick += tickInterval) {
+                    const z = tick / 1000;
+                    const x = toScreenX(z);
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', x);
+                    line.setAttribute('y1', padding.top);
+                    line.setAttribute('x2', x);
+                    line.setAttribute('y2', plotHeight - padding.bottom);
+                    line.setAttribute('stroke', '#e0e0e0');
+                    line.setAttribute('stroke-width', '1');
+                    line.setAttribute('stroke-dasharray', '2,2');
+                    svg.appendChild(line);
+                    
+                    // Label
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', plotHeight - padding.bottom + 20);
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('fill', '#666');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.textContent = Math.round(tick).toString();
+                    svg.appendChild(text);
+                }
+                
+                // Y-axis grid lines and labels
+                const wMaxUm = wMax * 1e6;
+                const wTickInterval = Math.pow(10, Math.floor(Math.log10(wMaxUm / 4)));
+                let adjustedInterval = wTickInterval;
+                if (adjustedInterval > wMaxUm / 4) adjustedInterval /= 2;
+                if (adjustedInterval < wMaxUm / 6) adjustedInterval *= 2;
+                if (adjustedInterval % 10 !== 0 && adjustedInterval % 5 !== 0) {
+                    adjustedInterval = Math.ceil(adjustedInterval / 10) * 10;
+                }
+                
+                for (let tick = 0; tick <= wMaxUm; tick += adjustedInterval) {
+                    const w = tick * 1e-6;
+                    const y = toScreenY(w);
+                    const yNeg = toScreenYNeg(w);
+                    
+                    // Positive side grid
+                    const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    hLine.setAttribute('x1', padding.left);
+                    hLine.setAttribute('y1', y);
+                    hLine.setAttribute('x2', plotWidth - padding.right);
+                    hLine.setAttribute('y2', y);
+                    hLine.setAttribute('stroke', tick === 0 ? '#ccc' : '#e0e0e0');
+                    hLine.setAttribute('stroke-width', tick === 0 ? '2' : '1');
+                    if (tick !== 0) hLine.setAttribute('stroke-dasharray', '2,2');
+                    svg.appendChild(hLine);
+                    
+                    // Negative side grid
+                    if (tick > 0) {
+                        const hLineNeg = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        hLineNeg.setAttribute('x1', padding.left);
+                        hLineNeg.setAttribute('y1', yNeg);
+                        hLineNeg.setAttribute('x2', plotWidth - padding.right);
+                        hLineNeg.setAttribute('y2', yNeg);
+                        hLineNeg.setAttribute('stroke', '#e0e0e0');
+                        hLineNeg.setAttribute('stroke-width', '1');
+                        hLineNeg.setAttribute('stroke-dasharray', '2,2');
+                        svg.appendChild(hLineNeg);
+                    }
+                    
+                    // Y-axis labels
+                    const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    yLabel.setAttribute('x', padding.left - 10);
+                    yLabel.setAttribute('y', y + 4);
+                    yLabel.setAttribute('font-size', '12');
+                    yLabel.setAttribute('fill', '#666');
+                    yLabel.setAttribute('text-anchor', 'end');
+                    yLabel.textContent = Math.round(tick).toString();
+                    svg.appendChild(yLabel);
+                    
+                    if (tick > 0) {
+                        const yLabelNeg = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        yLabelNeg.setAttribute('x', padding.left - 10);
+                        yLabelNeg.setAttribute('y', yNeg + 4);
+                        yLabelNeg.setAttribute('font-size', '12');
+                        yLabelNeg.setAttribute('fill', '#666');
+                        yLabelNeg.setAttribute('text-anchor', 'end');
+                        yLabelNeg.textContent = '-' + Math.round(tick).toString();
+                        svg.appendChild(yLabelNeg);
+                    }
+                }
+                
+                // Create beam profile path
+                let pathData = `M ${toScreenX(propagationData[0].z)} ${toScreenY(propagationData[0].w)}`;
+                for (let i = 1; i < propagationData.length; i++) {
+                    pathData += ` L ${toScreenX(propagationData[i].z)} ${toScreenY(propagationData[i].w)}`;
+                }
+                for (let i = propagationData.length - 1; i >= 0; i--) {
+                    pathData += ` L ${toScreenX(propagationData[i].z)} ${toScreenYNeg(propagationData[i].w)}`;
+                }
+                pathData += ' Z';
+                
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', 'url(#beamGradient)');
+                path.setAttribute('stroke', '#4CAF50');
+                path.setAttribute('stroke-width', '2');
+                svg.appendChild(path);
+                
+                // Center line
+                const centerLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                centerLine.setAttribute('x1', padding.left);
+                centerLine.setAttribute('y1', padding.top + (plotHeight - padding.top - padding.bottom) / 2);
+                centerLine.setAttribute('x2', plotWidth - padding.right);
+                centerLine.setAttribute('y2', padding.top + (plotHeight - padding.top - padding.bottom) / 2);
+                centerLine.setAttribute('stroke', '#333');
+                centerLine.setAttribute('stroke-width', '1');
+                svg.appendChild(centerLine);
+                
+                // Lens position (vertical line)
+                const lensX = toScreenX(lensZ);
+                const lensLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                lensLine.setAttribute('x1', lensX);
+                lensLine.setAttribute('y1', padding.top);
+                lensLine.setAttribute('x2', lensX);
+                lensLine.setAttribute('y2', plotHeight - padding.bottom);
+                lensLine.setAttribute('stroke', '#FF5722');
+                lensLine.setAttribute('stroke-width', '4');
+                svg.appendChild(lensLine);
+                
+                const lensLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                lensLabel.setAttribute('x', lensX);
+                lensLabel.setAttribute('y', padding.top - 5);
+                lensLabel.setAttribute('font-size', '12');
+                lensLabel.setAttribute('fill', '#FF5722');
+                lensLabel.setAttribute('font-weight', 'bold');
+                lensLabel.setAttribute('text-anchor', 'middle');
+                lensLabel.textContent = '⚬ Lens';
+                svg.appendChild(lensLabel);
+                
+                // Input waist (blue circle)
+                const inputWaistX = toScreenX(inputBeam.z0);
+                const inputWaistY = padding.top + (plotHeight - padding.top - padding.bottom) / 2;
+                const inputWaistCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                inputWaistCircle.setAttribute('cx', inputWaistX);
+                inputWaistCircle.setAttribute('cy', inputWaistY);
+                inputWaistCircle.setAttribute('r', '8');
+                inputWaistCircle.setAttribute('fill', '#2196F3');
+                inputWaistCircle.setAttribute('stroke', '#1976D2');
+                inputWaistCircle.setAttribute('stroke-width', '2');
+                svg.appendChild(inputWaistCircle);
+                
+                const inputWaistLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                inputWaistLabel.setAttribute('x', inputWaistX);
+                inputWaistLabel.setAttribute('y', inputWaistY - 15);
+                inputWaistLabel.setAttribute('font-size', '12');
+                inputWaistLabel.setAttribute('fill', '#1976D2');
+                inputWaistLabel.setAttribute('font-weight', 'bold');
+                inputWaistLabel.setAttribute('text-anchor', 'middle');
+                inputWaistLabel.textContent = 'w₀ Input';
+                svg.appendChild(inputWaistLabel);
+                
+                // Output waist (orange circle)
+                const outputWaistX = toScreenX(outputBeam.z0);
+                const outputWaistY = padding.top + (plotHeight - padding.top - padding.bottom) / 2;
+                const outputWaistCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                outputWaistCircle.setAttribute('cx', outputWaistX);
+                outputWaistCircle.setAttribute('cy', outputWaistY);
+                outputWaistCircle.setAttribute('r', '8');
+                outputWaistCircle.setAttribute('fill', '#FF9800');
+                outputWaistCircle.setAttribute('stroke', '#F57C00');
+                outputWaistCircle.setAttribute('stroke-width', '2');
+                svg.appendChild(outputWaistCircle);
+                
+                const outputWaistLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                outputWaistLabel.setAttribute('x', outputWaistX);
+                outputWaistLabel.setAttribute('y', outputWaistY - 15);
+                outputWaistLabel.setAttribute('font-size', '12');
+                outputWaistLabel.setAttribute('fill', '#F57C00');
+                outputWaistLabel.setAttribute('font-weight', 'bold');
+                outputWaistLabel.setAttribute('text-anchor', 'middle');
+                outputWaistLabel.textContent = 'w₀ Output';
+                svg.appendChild(outputWaistLabel);
+                
+                // Axis titles
+                const xAxisTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xAxisTitle.setAttribute('x', plotWidth / 2);
+                xAxisTitle.setAttribute('y', plotHeight - 10);
+                xAxisTitle.setAttribute('font-size', '14');
+                xAxisTitle.setAttribute('fill', '#333');
+                xAxisTitle.setAttribute('font-weight', 'bold');
+                xAxisTitle.setAttribute('text-anchor', 'middle');
+                xAxisTitle.textContent = 'Position (mm)';
+                svg.appendChild(xAxisTitle);
+                
+                const yAxisTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                yAxisTitle.setAttribute('x', 20);
+                yAxisTitle.setAttribute('y', plotHeight / 2);
+                yAxisTitle.setAttribute('font-size', '14');
+                yAxisTitle.setAttribute('fill', '#333');
+                yAxisTitle.setAttribute('font-weight', 'bold');
+                yAxisTitle.setAttribute('text-anchor', 'middle');
+                yAxisTitle.setAttribute('transform', `rotate(-90, 20, ${plotHeight / 2})`);
+                yAxisTitle.textContent = 'Beam Radius (μm)';
+                svg.appendChild(yAxisTitle);
+                
+                svgContainer.appendChild(svg);
+
+                // Show results
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            } catch (error) {
+                const errorDiv = document.getElementById('error-message');
+                errorDiv.textContent = 'Error: ' + error.message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Auto-calculate on input change
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Debounce calculation
+                    clearTimeout(this.calculateTimeout);
+                    this.calculateTimeout = setTimeout(calculate, 500);
+                });
+            });
+
+            // Calculate on page load
+            calculate();
+        });
+    </script>
+</body>
+</html>
+

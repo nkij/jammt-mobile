@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JamMt>
+  <!-- Example substrate database for JamMt -->
+  <SubstrateSet Name="SSavail">
+    <!-- Lenses produced by Pörschke -->
+    <Substrate Name="P+100" Material="Fused silica" d="4e-3" R1="-50e-3" R2="1e12"/>
+    <Substrate Name="P-100" Material="Fused silica" d="3e-3" R1="50e-3" R2="1e12"/>
+    <Substrate Name="P+50" Material="Fused silica" d="5e-3" R1="-25.02e-3" R2="1e12"/>
+  </SubstrateSet>
+
+  <Material Name="BK7" B1="1.03961212" B2="0.231792344" B3="1.01046945" C1="6.00069867E-15" C2="2.00179144E-14" C3="1.03560653E-10" />
+  <Material Name="Fused silica" B1="0.6961663" B2="0.4079426" B3="0.8974794"
+    C1="4.67914825849e-15" C2="1.351206307396e-14" C3="9.7934002537921e-11" />
+  <Material Name="Si" B1="10.668" B2="0.0030" B3="1.541" C1="9.1204E-14" C2="1.288225E-12" C3="1.218816E-6" />
+</JamMt>

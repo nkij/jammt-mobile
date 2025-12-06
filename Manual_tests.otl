@@ -1,0 +1,20 @@
+This is a list of bugs in the past, which can not simply be mapped to an
+automated unit test. Therefore this list should be worked through before any
+release of JamMt.
+
+General tests of the user interface
+	[_] Open display settings and change y and y2 axis from dropdown list. Close and open again.
+		Were the settings remembered correctly?
+	[_] Add a substrate to the plot. Remove it immediately.
+		Is the beam updated correctly?
+	[_] Open the beam analyzer manager. Add two beam analyzers. Click Edit.
+		Does the edit dialog pop up correctly?
+	[_] Start JamMt and immediately press File -> Reset.
+		There should be no error output on the terminal.
+	[_] Open display settings and enlarge the x range.
+		Is the plot updated correctly?
+	[_] Add a lens and move it to z != 0.0. Change this lens to a predefined one.
+		The position should not be changed.
+	[_] Add a substrate to the plot. Then change it to a thin lens.
+		Is the lens updated correctly?
+

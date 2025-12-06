@@ -1,0 +1,160 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>A.&nbsp;Changes</title><meta content="DocBook v5 XSL Stylesheets V1.72.0" name="generator"><link rel="start" href="index.html" title="XMLUnit Java User's Guide"><link rel="up" href="index.html" title="XMLUnit Java User's Guide"><link rel="prev" href="ar01s06.html" title="6.&nbsp;DOM Tree Walking"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table summary="Navigation header" width="100%"><tr><th align="center" colspan="3">A.&nbsp;Changes</th></tr><tr><td align="left" width="20%"><a accesskey="p" href="ar01s06.html">Prev</a>&nbsp;</td><th align="center" width="60%">&nbsp;</th><td align="right" width="20%">&nbsp;</td></tr></table><hr></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="changes"></a>A.&nbsp;Changes</h2></div></div></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="Changes 1.1"></a>A.1.&nbsp;Changes from XMLUnit 1.0 to 1.1</h3></div></div></div>
+      
+
+      <p>XMLUnit 1.1's main focus was to add two features that have
+        been asked for repeatedly:</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>Support for XML Namespaces in XPath
+          processing</li><li>Support for XML Schema validation.</li></ul></div>
+
+      <p>In addition some JAXP features that have been added after
+      the release of XMLUnit 1.0 are now supported - most notably
+      XPath support - and all reported bugs and feature requests have
+      been addressed.</p>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="Breaking Changes 1.1"></a>A.1.1.&nbsp;Breaking Changes</h4></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>
+            <code class="literal">XMLTestCase</code> is now abstract.  You
+            probably have never created instances of this class
+            without subclassing it, but if you did, your code will now
+            break.  You will most likely want to look at the
+            <code class="literal">XMLAssert</code> class.
+          </li><li>
+            <p>All methods that have been deprecated in XMLUnit 1.0
+            have been removed.</p>
+          </li><li>
+            <p>All methods that had been declared to throw
+            <code class="literal">TransformerConfigurationException</code> or
+            <code class="literal">ParserConfigurationException</code> now no
+            longer declare it.  Exceptions of these types cannot be
+            recovered from anyway, so XMLUnit will now wrap them in a
+            <code class="literal">org.custommonkey.xmlunit.exceptions.ConfigurationException</code>
+            which is an unchecked exception.</p>
+
+            <p>This change doesn't have a big impact on your tests,
+            but if you tried to catch these exceptions they will now
+            bypass your catch blocks.</p>
+          </li><li>
+            <p>A new type of <code class="literal">Difference</code>
+            (<code class="literal">CHILD_NODE_NOT_FOUND_ID</code>) has been
+            added.  It will be raised for the excess children if the
+            control element has more child nodes than the test element
+            - or vice versa.</p>
+
+            <p>Prior to XMLUnit 1.1 a <code class="literal">Difference</code>
+            of either <code class="literal">ELEMENT_TAG_NAME_ID</code> or
+            <code class="literal">NODE_TYPE_ID</code> would have been raised if
+            the control element had more children.  The excess
+            children were compared to the very first child node of the
+            test element.  Excess children of the test element were
+            not reported at all.</p>
+          </li><li>
+            <p>The <code class="literal">schemaLocation</code> and
+            <code class="literal">noNamespaceSchemaLocation</code> attributes of
+            the XMLSchema-Instance Namespace are now treated in a
+            different way from "normal" attributes.  They will be
+            flagged as new kinds of <code class="literal">Difference</code> that
+            is recoverable.</p>
+
+            <p>This means that two pieces of XML that were
+            different in XMLUnit 1.0 because they differed in one of
+            the two attributes will be similar in XMLUnit 1.1.</p>
+          </li><li>
+            <p>When comparing two elements that differ on
+            attributes the comparision is now symmetric.</p>
+
+            <p>In XMLUnit 1.0 if an attribute was present on the
+            test but not the control element this wasn't flagged as a
+            <code class="literal">Difference</code>; in XMLUnit 1.1 it
+            is.</p>
+
+            <p>In most practical cases this doesn't cause any
+            problems since the two elements either have a different
+            number of attributes or there are attributes in the
+            control element that are missing in the test element - so
+            the pieces of XML have been flagged as different before as
+            well.  If you are using <code class="literal">DetailiedDiff</code>
+            this change may lead to more detected
+            <code class="literal">Difference</code>s, though.</p>
+          </li></ul></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="New Features 1.1"></a>A.1.2.&nbsp;New Features</h4></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li>XMLUnit 1.0 shipped with rudimentary support for
+          XML Schema validation (it worked with Apache Xerces-J but no
+          other parsers).  XMLUnit 1.1 supports Schema validation for
+          any JAXP compliant XML parser (that supports Schema itself).
+          You can also tell XMLUnit where to look for the XML Schema
+          definitions.  See <a href="ar01s04.html#XML Schema Validation" title="4.1.2.&nbsp;XML Schema Validation">Section&nbsp;4.1.2, &ldquo;XML Schema Validation&rdquo;</a> for
+          details.</li><li>XPath support has undergone significant changes,
+          see <a href="ar01s05.html" title="5.&nbsp;XPath Tests">Section&nbsp;5, &ldquo;XPath Tests&rdquo;</a> for more details.  In particular
+          XMLUnit will now use <code class="literal">javax.xml.xpath</code> if
+          it is available (which also helps to avoid the buggy XSLTC
+          version that is the default transformer engine in Java 5)
+          and supports XML namespaces.</li><li>Several new configuration options have been added,
+            see <a href="ar01s03.html#Comparing: Configuration" title="3.7.&nbsp;Configuration Options">Section&nbsp;3.7, &ldquo;Configuration Options&rdquo;</a>.
+            <div class="itemizedlist"><ul type="circle"><li>Treat CDATA sections and Texts alike.  <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1262148&group_id=23187&atid=377768" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue
+              1262148</a>.</li><li>Ignore differences in Text whitespace.  <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=754812&group_id=23187&atid=377771" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue
+              754812</a>.</li><li>Ignore comments completely.  <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=707255&group_id=23187&atid=377770" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue
+              707255</a>.</li><li>Ignore the order of attributes.</li></ul></div>
+          </li><li>It is now possible to provide a custom
+          <code class="literal">org.xml.sax.EntityResolver</code> for control
+          and test parsers.</li><li>It is now possible to provide a custom
+          <code class="literal">javax.xml.transform.URIResolver</code> for
+          transformations.</li><li>New overloads have been added that allow
+          <code class="literal">org.xml.sax.InputSource</code> to be used as a
+          "piece of XML" in many classes.</li><li><code class="literal">Validator</code> will now use the
+          custom <code class="literal">EntityResolver</code>  <a href="ar01s02.html#EntityResolver" title="2.4.2.&nbsp;EntityResolver">configured</a> for the "control"
+          parser as a fallback.</li><li>
+            <p>A new package
+              <code class="literal">org.custommonkey.xmlunit.examples</code> has
+              been added that showcases some of XMLUnit's abilities.
+              It currently contains two classes:</p>
+
+            <div class="orderedlist"><ol type="1"><li>
+                <code class="literal">MultiLevelElementNameAndTextQualifier</code>
+                see <a href="ar01s03.html#MultiLevelElementNameAndTextQualifier" title="3.4.4.&nbsp;org.custommonkey.xmlunit.examples.MultiLevelElementNameAndTextQualifier">Section&nbsp;3.4.4, &ldquo;<code class="literal">org.custommonkey.xmlunit.examples.MultiLevelElementNameAndTextQualifier</code>&rdquo;</a> for
+                a description.</li><li><code class="literal">XPathRegexAssert</code> that
+              provides a JUnit 3.x like
+              <code class="literal">assertXPathMatches</code> method to verify
+              that the string-ified value of an XPath match matches a
+              given regular expression (requires JDK 1.4 or
+              above).</li></ol></div>
+          </li></ul></div>
+      </div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="Bugfixes 1.1"></a>A.1.3.&nbsp;Important Bug Fixes</h4></div></div></div>
+        
+
+        <div class="itemizedlist"><ul type="disc"><li><code class="literal">ElementNameAndAttributeQualifier</code>
+          would throw an <code class="literal">NullPointerException</code> if
+          the control piece of XML contained attributes that were
+          missing in the test piece of XML.  <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=952920&group_id=23187&atid=377768" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue
+          952920</a>.</li><li>
+            <code class="literal">XMLTestCase.assertXMLNotEqual(String, Reader,
+            Reader)</code> delegated to
+            <code class="literal">assertXMLEqual</code> instead of
+            <code class="literal">assertXMLNotEqual</code> internally, negating
+            the assertion's logic.  <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=956372&group_id=23187&atid=377768" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue
+            956372</a>.</li><li><code class="literal">XMLTestCase.assertXMLIdentical(Diff,
+          boolean)</code> delegated to
+          <code class="literal">assertXMLEqual</code>, weakening the
+          assertion.</li><li>Under certain circumstances the reported XPath
+          expressions for nodes that showed differences were wrong.
+          XMLUnit could lose the root element or erroneously append an
+          extra attribute name.  Issues <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1047364&group_id=23187&atid=377768" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">1047364</a>
+          and <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1027863&group_id=23187&atid=377770" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">1027863</a>.</li><li>
+            <code class="literal">TolerantSaxParser</code>'s logic in
+            <code class="literal">characters</code> was broken and could cause
+            <code class="literal">StringIndexOutOfBoundsException</code>s.
+            <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1150234&group_id=23187&atid=377768" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">Issue 1150234</a>.</li></ul></div>
+      </div>
+    </div>
+  </div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tr><td align="left" width="40%"><a accesskey="p" href="ar01s06.html">Prev</a>&nbsp;</td><td align="center" width="20%">&nbsp;</td><td align="right" width="40%">&nbsp;</td></tr><tr><td valign="top" align="left" width="40%">6.&nbsp;DOM Tree Walking&nbsp;</td><td align="center" width="20%"><a accesskey="h" href="index.html">Home</a></td><td valign="top" align="right" width="40%">&nbsp;</td></tr></table></div></body></html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JamMt>
+  <!--This file was automatically created by JamMt-->
+  <Beam w0x="1.7E-4" z0x="0.9" w0y="3.7E-4" z0y="-0.2" lambda="1.55E-6" />
+  <LensSet Name="LSdisp">
+    <Lens Name="L1" z="-0.7327549126665331" fx="0.1" fy="0.1" a="0.025" d="0.03" gid="1" />
+    <Substrate Name="S1" z="-0.44018459115784325" n="1.5" a="0.025" d="0.01"
+      gid="0" R1x="-0.1" R2x="0.1" R1y="-0.2" R2y="0.2" angle="0.0" mirror="0" coating="right" />
+    <Substrate Name="S2" z="0.08570130319954838" n="1.5" a="0.025" d="0.01"
+      gid="0" R1x="-0.2" R2x="0.2" R1y="-0.1" R2y="0.1" angle="0.0" mirror="0" coating="none" />
+    <Lens Name="L2" z="0.500484543819463" fx="-0.2" fy="0.1" a="0.025" d="0.03" gid="0" />
+  </LensSet>
+  <LensSet Name="LSavail">
+    <Substrate Name="Cube" z="0.0" n="1.5" a="0.03" d="0.03" coating="none" gid="0" R1x="-Infinity" R2x="Infinity" R1y="-0.3" R2y="0.2" angle="0.0" mirror="1" />
+    <Lens Name="L1" z="0.0" fy="0.2" fx="0.2" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L2" z="0.1" fy="0.1" fx="0.1" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L3" z="0.2" fy="0.05" fx="0.05" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L4" z="0.3" fy="-0.05" fx="-0.05" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L5" z="0.4" fy="-0.1" fx="-0.1" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L6" z="0.5" fy="-0.2" fx="-0.2" a="0.025" d="0.03" gid="0" />
+  </LensSet>
+  <LensSet Name="LSfit">
+    <Lens Name="L1" z="0.0" fy="0.1" fx="0.1" a="0.025" d="0.03" gid="0" />
+    <Lens Name="L2" z="0.1" fy="-0.1" fx="-0.1" a="0.025" d="0.03" gid="0" />
+  </LensSet>
+  <AnalyzerSet>
+    <Analyzer Name="My beam analyzer" z="-0.1234" gid="3" />
+    <Analyzer Name="Beam analyzer" z="0.0" gid="0"/>
+  </AnalyzerSet>
+  <TextLabelSet>
+    <TextLabel Name="My text label" Label="Testlabel" gid="1" z="1.324" />
+  </TextLabelSet>
+  <CavitySet Name="CSdisp">
+    <Cavity Name="OPO" Ref1="right" Ref2="left" Group="false">
+      <Substrate Name="M1" z="-0.025" n="1.0" a="0.025" d="0.0" gid="0" R1x="Infinity" R2x="-0.025" R1y="Infinity" R2y="-0.025" angle="0.0" mirror="1" coating="right" />
+      <Substrate Name="PPKTP" z="0.0" n="1.816" a="0.025" d="0.01" gid="0" R1x="Infinity" R2x="Infinity" R1y="Infinity" R2y="Infinity" angle="0.0" mirror="0" coating="left" />
+      <Substrate Name="M2" z="0.025" n="1.0" a="0.025" d="0.0" gid="0" R1x="0.025" R2x="Infinity" R1y="0.025" R2y="Infinity" angle="0.0" mirror="2" coating="left" />
+    </Cavity>
+  </CavitySet>
+  <CavitySet Name="CSavail" />
+  <Material Name="BK7" B1="1.03961212" B2="0.231792344" B3="1.01046945" C1="6.00069867E-15" C2="2.00179144E-14" C3="1.03560653E-10" />
+  <Settings>
+    <yAxis>waistsize</yAxis>
+    <y2Axis>gouy phase</y2Axis>
+    <autoScale>false</autoScale>
+    <xMin>-1.</xMin>
+    <xMax>2.</xMax>
+    <yMin>auto</yMin>
+    <yMax>auto</yMax>
+    <y2Min>-90</y2Min>
+    <y2Max>90</y2Max>
+    <xRes>101</xRes>
+    <info>true</info>
+    <showTan>false</showTan>
+    <rotate>false</rotate>
+    <colortheme>dark</colortheme>
+    <openPath>.</openPath>
+    <savePath>/home/niclas/scripts_progs/java/JGrob/resources</savePath>
+    <dataPath>.</dataPath>
+    <exportPath>.</exportPath>
+    <dx_min>0.01</dx_min>
+    <single_lens_use>false</single_lens_use>
+    <right_focus>true</right_focus>
+    <lens_overlap>true</lens_overlap>
+    <nearby_solution>false</nearby_solution>
+    <target_w0>2.2E-5</target_w0>
+    <target_z0_min>0.4</target_z0_min>
+    <target_z0_max>1.4</target_z0_max>
+    <target_w0_y>2.5E-5</target_w0_y>
+    <target_z0_min_y>1.4</target_z0_min_y>
+    <target_z0_max_y>1.9</target_z0_max_y>
+    <shiftingRange_start>0.2</shiftingRange_start>
+    <shiftingRange_end>0.7</shiftingRange_end>
+    <fitVisibility>0.91</fitVisibility>
+    <Nlenses>6</Nlenses>
+    <grid_size>100</grid_size>
+  </Settings>
+</JamMt>

@@ -1,0 +1,166 @@
+<html>
+  <h1> ChangeLog </h1>
+  
+  <h2> Version 0.24 (released 2011-02-18) </h2>
+  <ul>
+    <li> New tool: Easily manage your substrates and materials by using the
+    new database manager </li>
+    <li> The rotation of a component is visualized correctly now </li>
+    <li> New component: text labels can now be placed to mark important
+    positions in your setup </li>
+    <li> All dialogs are checked for wrong input now </li>
+    <li> New tool: the component overview lets you see the distance between any
+    two components in units of the table grid width </li>
+    <li> new menu item 'clear plot' will remove all components from the plot
+    </li>
+    <li> New logging method </li>
+    <li> Full support for cylindrical lenses </li>
+    <li> JamMt is now themeable and uses PNG images for drawing components </li>
+  </ul>
+  <h2> Version 0.22 (released 2009-10-06) </h2>
+    <ul>
+      <li> Save will use the filename given in the title bar of the window, whereas the new Save as ... entry provides the filechooser dialog </li>
+      <li> Updated the documentation </li>
+      <li> the startup and logfile is now located under $HOME/.JamMt/ </li>
+      <li> BugFix in loading old ini files (JamMt hung up completely) </li>
+      <li> Beam analyzer now have infoboxes, too (verbose view) </li>
+      <li> To avoid flickering, the plot range gets only updated when the mouse button is released </li>
+      <li> Polished the look and feel </li>
+      <li> The 'Modematching assistant' (the former LensFitter) is now able to change the grid size </li>
+      <li> Moved 'Import waist data' from LensFitter to 'File' menu </li>
+      <li> Added raw data export for Octave, Matlab and comma/TAB separated data
+      </li>
+      <li> JFreeChart 1.0.13 is now used </li>
+      <li> LensFitter target waist is now defined within a specific range </li>
+      <li> Substrates can be flipped by pressing the 'f'-key </li>
+      <li> New beam analyzer objects (marker) have been implemented. </li>
+      <li> Dialogs can be closed using the Escape key </li>
+      <li> Finesse file export: the created file contains now the right
+      substrate names </li>
+      <li> Filenames are now part of the main window's titlebar </li>
+      <li> JamMt now creates a log file for debugging </li>
+      <li> Added export to image files (JPG, PNG, GIF) </li>
+      <li> The beam analyzer now shows the elements of the ABCD matrix </li>
+      <li> Added export to simple ASCII .txt files </li>
+      <li> Added export to Finesse .kat files </li>
+    </ul>
+
+  <h2> Version 0.2 (released 2008-11-04) </h2>
+    <ul>
+      <li> BugFix: After a database import there was a mismatch between the
+      shown predefined substrates and the internally used ones </li>
+      <li> Added a quick start guide to JamMt help </li>
+      <li> BugFix: The beam wasn't shown on startup </li>
+      <li> Skipped the authentification via the AEI network </li>
+      <li> Minor BugFixes </li>
+    </ul>
+
+  <h2> Version 0.18 (released 2008-07-04) </h2>
+  <ul>
+    <li> The mouse wheel can now be used to navigate the view. </li>
+    <li> BugFix in changing a cavity end mirror. The coating was not carried
+    over. </li>
+    <li> BugFix in Open File dialog. The last folder is now remembered
+    correctly. </li>
+    <li> BugFix in choosing predefined substrates. The material was not
+    correctly added </li>
+    <li> Added new tool 'Thermal lens estimator' </li>
+    <li> BugFix in updating the display </li>
+    <li> The settings from the lens fitter are stored </li>
+    <li> BugFix in saving/loading the cavities </li>
+    <li> Performance has been improved </li>
+    <li> It is now possible to import waist data for a third column too. </li>
+    <li> An online help browser (helpgui.sourceforge.net) has been added </li>
+    <li> BugFix in calculating the cavity eigenmodes </li>
+    <li> Substrate are plotted more realistic </li>
+    <li> Introduction of JUnit tests </li>
+    <li> JamMt now consequently uses the ABCD matrix formalism </li>
+    <li> Linear cavities can now be defined and their eigenmode is calculated
+    </li>
+    <li> Added filter rules for the lens fitter </li>
+    <li> BugFix in loading settings on Windows machines </li>
+    <li> The list of materials and the list of equations can now be edited </li>
+    <li> BugFix in Calculator module: integer numbers are handled correctly
+    </li>
+    <li> BugFix in 1.5 version of the lens fitter </li>
+    <li> An ini file can be stored that is read in at every start </li>
+    <li> Substrates can now be rotated and the tangential plane of the beam can be
+    visualized </li>
+  </ul>
+
+  <h2> Version 0.16 (released 2007-11-28) </h2>
+  <ul>
+    <li> A substrate database can now be imported </li>
+    <li> A new menu item 'Tools' was created to separate the 'add-ons' from the
+    rest </li>
+    <li> Implementation of a simple calculator finished </li>
+    <li> New MaterialEditor lets you define materials </li>
+    <li> A new class 'Material' defines Sellmeier equations for different
+    materials, i.e. you can define 'thick' lenses from now on </li>
+    <li> BugFix in beam propagation through a substrate </li>
+    <li> Return/Del can be used to change/delete the current lens </li>
+    <li> Data is now stored in an xml format (human readable!) </li>
+    <li> BugFix in autoscaling the y axis </li>
+    <li> Lenses/ Substrates can now be grouped </li>
+    <li> BugFix in saving files with jre1.5: Rectangle2D has to be transient
+    </li>
+  </ul>
+
+  <h2> Version 0.14 (released 2007-11-01) </h2>
+  <ul>
+    <li> Cleared the code </li>
+    <li> The focal length of substrates is now automatically displayed in m, mm,
+    ... </li>
+    <li> Edit lenses dialog can now handle lenses as well as substrates </li>
+    <li> BugFix in using Substrates (new way of implementing them) </li>
+    <li> BugFix in CavityCalculator involving infinite radii of curvature </li>
+  </ul>
+
+  <h2> Version 0.12 (released 2007-10-23) </h2>
+  <ul>
+    <li> The export function now generates pretty pictures ;) </li>
+    <li> The lens info also will show the beam parameters of the initial beam in the
+    status bar </li>
+    <li> The display of the focal length of substrates is automatically
+    formatted </li>
+    <li> The list of used lenses shows the name of used substrates </li>
+    <li> Special keyword 'Infinity' can be used for radius of curvatures </li>
+    <li> The text inside a TextField is now selected when entering the field
+    </li>
+    <li> The resolution of the x axis can now be changed (Display settings)
+    </li>
+    <li> Generated the API documentation with javadoc </li>
+    <li> Behind the scenes: compilation is done via 'ant' </li>
+    <li> Shortcuts and menu names have been modified </li>
+    <li> The new CavityCalculator allows you to simulate a linear cavity
+    (Options/Cavity calculator) </li>
+    <li> It is now possible to reset the settings (File/Reset) </li>
+    <li> The AutoFit routine can find solutions for which the waist is
+    smaller/bigger than a given z0.
+    It also informs you, if no solution was found at all. </li>
+    <li> General information about JamMt was added (Help/About) </li>
+  </ul>
+
+  <h2> Version 0.1 (released 2007-10-11) </h2>
+  <ul>
+    <li> Added the documentation (Help/Documentation) </li>
+    <li> A 'light version' is now available (some features are excluded in this
+    version) </li>
+    <li> A fitting routine is know implemented (Options/Autofit). </li>
+    <li> You can define named substrates which can easily be added to the plot from the
+    vailable substrates list </li>
+    <li> Lenses can be selected by pressing the <TAB> (<CTRL>-<TAB>) key </li>
+    <li> Lenses can be dragged through each other </li>
+    <li> Added shortcuts of the form <CTRL>-key (see the menu entries) </li>
+    <li> Export to eps </li>
+    <li> The paths for the save, load, export dialogs are know saved </li>
+    <li> Resizing the main window is no problem any more </li>
+    <li> Double clicking a lens will open the change lens dialog </li>
+    <li> Pressing enter in any textfield will invoke a button click (mostly
+    'ok') </li>
+    <li> Options/Info will permanently show a lens info box </li>
+    <li> You can give a file as an argument to JamMt at start </li>
+    <li> Lenses will turn red if the beam size at its position is greater than
+    .33*aperture </li>
+  </ul>
+</html>

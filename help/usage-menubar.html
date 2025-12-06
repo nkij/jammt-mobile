@@ -1,0 +1,294 @@
+<html>
+  <h1> The menu bar </h1>
+
+  <h2> The file menu </h2>
+  <table valign="top">
+    <tr> 
+      <td> Open file: </td>
+      <td> Open a .jam file </td>
+    </tr>
+    <tr>
+      <td> Save: </td>
+      <td> Save settings in a file. The filename from the windows title bar will
+        be used (that is the file that was last opened). This will save the 
+        lenses/substrates, the initial beam, the plot
+        settings, the list of available lenses/substrates,
+        the list of lenses that are used for fitting and
+        all the path names.
+      </td>
+    </tr>
+    <tr>
+      <td> Save as ...: </td>
+      <td> Same as the item above but provides a file chooser dialog.
+      </td>
+    </tr>
+    <tr>
+      <td> Reset: </td>
+      <td> Reloads the file that was last opened.</td>
+    </tr>
+    <tr>
+      <td> Clear plot: </td>
+      <td> Removes all components from the plot. </td>
+    </tr>
+    <tr>
+      <td> Export ...: </td>
+      <td> Export the plotting area to various formats. These contain eps, jpg,
+        several formats for exporting the raw data (e.g. Octave/Matlab) as well
+        as a file export for .kat files that can be read by Finesse. </td>
+    </tr>
+    <tr>
+      <td> Import JamDB: </td>
+      <td> Import a .jamDB file in which only substrates and
+        materials are defined. These are used as predefined
+        substrates. </td>
+    </tr>
+    <tr>
+      <td> Import beam data: </td>
+      <td> Opens a file chooser dialog. From the data in the file you
+        import, the beam parameters are estimated
+        using a Levenberg-Marquardt algorithm. You will
+        see some information for the fit (number of
+        iteration, chi2) and the estimated beam
+        parameters are automatically used as initial beam.
+        The file needs to have the following form: <br> <br>
+
+        <table>
+          <tr>
+            <td># Comments start with '#', empty lines are ignored</td>
+          </tr>
+          <tr>
+            <td># 1. column</td> <td>2. column</td> <td>3. column</td>
+          </tr>
+          <tr>
+            <td># position [cm]</td> <td>waist size [&#956;m]</td> <td>waist size (orthogonal direction) [&#956;m]</td>
+          </tr>
+        </table>
+        <br>
+    </tr>
+    <tr>
+      <td> Settings: </td>
+      <td> Saves all settings (the same as the 'Write file' 
+        command does) to a special file in the users home
+        directory '$HOME/.JamMt/config' which is loaded everytime
+        JamMt is started. On UNIX-like systems this file is
+        hidden. </td>
+    </tr>
+    <tr>
+      <td> Quit: </td>
+      <td> Quit JamMt </td>
+    </tr>
+  </table>
+  
+  <h2> The edit menu </h2>
+  <table valign="top">
+    <tr>
+      <td> Initial beam: </td>
+      <td> Set the parameters of the initial beam (w0, z0,
+        lambda). The wave length of the initial beam is
+        also used by the autofit routine. </td>
+    </tr>
+    <tr>
+      <td> Add substrate: </td>
+      <td> Adds a new substrate to the plot. In case you add
+        a thin lens, you can choose the focal length, the 
+        position and the aperture of that lens. The focal 
+        length can be chosen from the list of available 
+        lenses (-&gt; see options menu) or you can directly
+        type in the desired focal length (NOTE: the latter is 
+        not automatically attached to the list of available
+        lenses!). The aperture is needed to warn you if the
+        beam is getting too large (-&gt; see plotting area).
+        You can also define a substrate in this dialog. A
+        substrate may be a beam splitter, a mirror or a 'thick' lens.<br>
+        You can either use a predefined substrate (-&gt; see
+        options menu), or edit the values by hand
+        (NOTE: the latter procedure will not attach the
+        substrate to the list of available substrates!).
+        The definition of a substrate consists of its
+        thickness, the index of refraction, the position,
+        the aperture, as well as the radius of curvature for
+        the two interfaces (the keyword 'Infinity' is allowed
+        here to define a plane interface). A tilted substrate can also be
+        defined in this dialog. </td>
+    </tr>
+    <tr>
+      <td> New material: </td>
+      <td> In this dialog you can add materials to JamMt,
+        i.e. define the dispersion properties. This is
+        done by defining the six coefficients that are
+        used in the Sellmeier equation, given by <br><br>
+
+        n<sup>2</sup> = 1 + 
+        B<sub>1</sub>*&#955;<sup>2</sup>/(&#955;<sup>2</sup> - C<sub>1</sub>) +
+        B<sub>2</sub>*&#955;<sup>2</sup>/(&#955;<sup>2</sup> - C<sub>2</sub>) +
+        B<sub>3</sub>*&#955;<sup>2</sup>/(&#955;<sup>2</sup> - C<sub>3</sub>) <br><br>
+                                
+        where &#955; is the vacuum wavelength in m. </td>
+    </tr>
+    <tr>
+      <td> Add beam analyzer: </td>
+      <td> Add a beam analyzer with a user defined name and position </td>
+    </tr>
+    <tr>
+        <td> Text label: </td>
+        <td> Add custom text labels to the plot. This can be useful to mark
+            important positions in your setup.</td>
+    </tr>
+  </table>
+
+  <h2> The View menu </h2>
+  <table valign="top">
+    <tr> 
+      <td> Mode: </td> 
+      <td> Toggle between movement and rotation mode </td>
+    </tr> 
+    <tr> 
+      <td> Verbose: </td> 
+      <td> Show verbose information for all components and the beam</td>
+    </tr> 
+    <tr> 
+      <td> Autoscale: </td> 
+      <td> Toggle autoscale on/off</td>
+    </tr> 
+    <tr> 
+      <td> Zoom in/out: </td> 
+      <td> Here you can zoom the specified axis in and out</td>
+    </tr> 
+    <tr> 
+      <td> Orthogonal plane: </td> 
+      <td> Show the beam additionally for the orthogonal plane.</td>
+    </tr> 
+    <tr>
+      <td> Display settings: </td>
+      <td> In this dialog you can define which graphs you
+        want to see (waist size, gouy phase or radius 
+        of curvature depending on the propagation
+        length z) for the y and y2 axis and you can
+        also define the plot range for each axis. The
+        keyword 'auto' computes an autorange. </td>
+    </tr>
+  </table>
+
+  <h2> The Component menu </h2>
+  <table valign="top">
+    <tr>
+      <td> Edit:</td>
+      <td> This opens the editor for the current component</td>
+    </tr>
+    <tr>
+      <td> Delete:</td>
+      <td> Delete the current component</td>
+    </tr>
+    <tr>
+      <td> Flip:</td>
+      <td> Flip the component (works only for thick lenses)</td>
+    </tr>
+    <tr>
+      <td> Next:</td>
+      <td> Make the next component the current one</td>
+    </tr>
+    <tr>
+      <td> Previous:</td>
+      <td> Make the previous component the current one</td>
+    </tr>
+    <tr>
+      <td> Ungroup:</td>
+      <td> Remove the current component from its group</td>
+    </tr>
+    <tr>
+      <td> Ungroup all:</td>
+      <td> Resolve the group which the current component belongs to</td>
+    </tr>
+    <tr>
+      <td> Set group id:</td>
+      <td> Specify a group id for the current component</td>
+    </tr>
+    <tr>
+      <td> Convert to:</td>
+      <td> If the current component is a thick lens, it can be converted to a
+        monolithic cavity or right/left cavity endmirror</td>
+    </tr>
+  </table>
+
+  <h2> The Window menu </h2>
+  <table valign="top">
+    <tr>
+      <td> Cavities: </td>
+      <td> Gives you an overview of all cavities that are
+        currently used, including information about their 
+        eigenmode. </td>
+    </tr>
+    <tr>
+      <td> Beam analyzer: </td>
+      <td> Presents an overview of all defined beam analyzer </td>
+    </tr>
+  </table>
+  
+  <h2> The tools menu </h2>
+  <table valign="top">
+    <tr>
+      <td> Modematching assistant: </td>
+      <td> This dialog gives you the opportunity to 
+        automatically search for a certain mode matching.
+        You have to define the initial beam parameters,
+        the parameters of the target beam, a shifting
+        range (i.e. the range in which the lenses are
+        shifted), the minimal visibility that you'd
+        like to reach and the number of lenses that
+        should be used.<br>
+        Hitting the fit button will start the routine.
+        A status bar pops up and every time a solution
+        is found, it is attached to the text field.
+        After the routine has finished (or you canceled
+        it) you can simply choose a solution with the
+        mouse or the arrow keys. The solution will then
+        be shown in the drawing area.
+        The lenses that are used for the fit can be 
+        edited by clicking the 'Edit fitting lenses'
+        button. The dialog is the same as the 
+        'Available lens' dialog. <br><br>
+
+        There are different filter rules that you can
+        apply on the solutions (press the filter button) to get rid of most of 
+        them. </td>
+    </tr>
+    <tr>
+      <td> Calculator: </td>
+      <td> This will open a simple calculator in which you
+        can do some calculations. Currently, only the
+        operators +,-,*,/, as well as round brackets
+        are recognized. There is one function available,
+        called vis(max,min) that will calculate the 
+        visibility. To use a function simply type e.g. vis(0.9, 0.01) into the text
+        field. </td>
+    </tr>
+    <tr>
+      <td> Thermal lens estimator: </td>
+      <td>
+        This tool can be used for simulating a thermal lens (only singlepass!).
+        The calculation is done by iteratively computing the focal length of the
+        thermal lens using an approximation big focal length, then
+        propagate the beam through this lens and calculate the next thermal
+        lens.
+      </td>
+    </tr>
+    <tr>
+        <td> Component overview: </td>
+        <td>
+            This tool gives an overview of the distance between any two
+            components in the plot. These values are normalized to a user
+            specified unit. This is useful to express the distances in units of
+            the grid of the table.
+        </td>
+    </tr>
+    <tr>
+	<td> Database manager: </dt>
+	<td>
+	  Create, import/export, edit and delete database files.
+	</td>
+    </tr>
+  </table>
+
+  <h2> The help menu </h2>
+  Documentation: Show this document.
+</html> 

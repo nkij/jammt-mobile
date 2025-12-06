@@ -1,0 +1,90 @@
+<html>
+    <h2> Themes </h2>
+    JamMt is capable to change its look by applying themes. This might be
+    helpful for example if your laser glasses don't allow you to see a certain
+    color on the screen. Beside the default theme there should be at least one
+    theme on JamMt's website ready for downloading. Currently this is the
+    'Monochrome' theme. A theme consists of a .theme file and several PNG
+    images.
+
+    <h3> Using a theme </h3>
+    To apply a theme you have to unzip/untar it and then copy it to the folder
+    '.JamMt/themes/' within your home directory. Then you have to add/edit the
+    colortheme entry in the file '.JamMt/config' and restart JamMt. To use the
+    'Monochrome' theme for example, add the following line within the 'Settings'
+    section like
+    this<br>
+    &lt Settings&gt<br>
+    ...<br>
+    &lt colortheme&gt Monochrome&lt/colortheme&gt<br>
+    ...<br>
+    &lt/Settings&gt<br>
+
+    <h3> Creating a theme </h3>
+    For each theme there has to be a folder within '.JamMt/themes'. The name of
+    that folder determines the theme name as it has to be given in the config
+    file. Within the theme folder there has to be the file 'themename.theme',
+    where 'themename' is identical to the folder name. Beneath this file the
+    theme folder has to provide several images in png format.
+
+    <h4> The .theme file format </h4>
+    Within the .theme file you can specify several colors and the position and
+    height of each image. It is a simple text file that includes a variable
+    specification on each line. Comments may be inserted by preceding a '#'.
+    Colors are specified by their red, green, blue and alpha values. The height
+    and position is given in units of the screen height. Here, the position 0.0
+    is the center of the screen. The following listing shows all default
+    values:<br>
+    # color of the 'y' axis<br>
+    ChartFgCol: 255, 0, 0, 255<br>
+    <br>
+    # background color of the chart<br>
+    ChartBgCol: 230, 230, 230, 255<br>
+    <br>
+    # color of the 'y2' axis<br>
+    ChartFg2Col: 0, 200, 0, 255<br>
+    <br>
+    # color of grid<br>
+    GridCol: 30, 30, 30, 255<br>
+    <br>
+    # background color of the info boxes<br>
+    InfoboxBgCol: 250, 250, 250, 255<br>
+    <br>
+    # foreground color of the info boxes<br>
+    InfoboxFgCol: 40, 40, 40, 255<br>
+    <br>
+    # y coordinates<br>
+    handle_y = -0.4<br>
+    lens_y = 0.0<br>
+    substrate_y = 0.0<br>
+    beam-analyzer_y = 0.0<br>
+    clipping_y = 0.0<br>
+    text-label_y = 0.0<br>
+    info-box_y = 0.5<br>
+    <br>
+    # components heights<br>
+    handle_h = 0.1<br>
+    lens_h = 0.4<br>
+    substrate_h = 0.4<br>
+    beam-analyzer_h = 0.8<br>
+    clipping_h = 0.2<br>
+    text-label_h = 0.8<br>
+    info-box_h = 0.4<br>
+
+    <h4> The image files </h4>
+    The naming convention for the PNG files is as follows:<br>
+    These files must exist:<br>
+    component[_flavor]_default_active.png<br>
+    <br>
+    Other files have to follow the convention:<br>
+    component[_flavor]_mode_state.png<br>
+    <br>
+    The following values are allowed:<br>
+    component: handle, lens, substrate, beam-analyzer, text-label, clipping<br>
+    flavor: convex-convex, concave-concave, plan-plan<br>
+    plan-convex, plan-concave, convex-concave<br>
+    mode: rotate, default<br>
+    state: active, inactive<br>
+    <br>
+    Note that only lenses and substrates have a 'flavor'.<br><br>
+</html>

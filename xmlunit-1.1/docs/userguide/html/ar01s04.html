@@ -1,0 +1,219 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>4.&nbsp;Validating XML Documents</title><meta content="DocBook v5 XSL Stylesheets V1.72.0" name="generator"><link rel="start" href="index.html" title="XMLUnit Java User's Guide"><link rel="up" href="index.html" title="XMLUnit Java User's Guide"><link rel="prev" href="ar01s03.html" title="3.&nbsp;Comparing Pieces of XML"><link rel="next" href="ar01s05.html" title="5.&nbsp;XPath Tests"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table summary="Navigation header" width="100%"><tr><th align="center" colspan="3">4.&nbsp;Validating XML Documents</th></tr><tr><td align="left" width="20%"><a accesskey="p" href="ar01s03.html">Prev</a>&nbsp;</td><th align="center" width="60%">&nbsp;</th><td align="right" width="20%">&nbsp;<a accesskey="n" href="ar01s05.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Validating XML Documents"></a>4.&nbsp;Validating XML Documents</h2></div></div></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="The Validator Class"></a>4.1.&nbsp;The <code class="literal">Validator</code> Class</h3></div></div></div>
+      
+
+      <p>The <code class="literal">Validator</code> class encapsulates
+      XMLUnit's validation support.  It will use the
+      <code class="literal">SAXParser</code> configured in XMLUnit (see <a href="ar01s02.html#JAXP" title="2.4.1.&nbsp;JAXP">Section&nbsp;2.4.1, &ldquo;JAXP&rdquo;</a>).</p>
+
+      <p>The piece of XML to validate is specified in the
+      constructor.  The constructors using more than a single argument
+      are only relevant if you want to validate against a DTD and need
+      to provide the location of the DTD itself - for details see the
+      next section.</p>
+
+      <p>By default, <code class="literal">Validator</code> will validate
+      against a DTD, but it is possible to validate against a (or
+      multiple) Schema(s) as well.  Schema validation requires an XML
+      parser that supports it, of course.</p>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="DTD Validation"></a>4.1.1.&nbsp;DTD Validation</h4></div></div></div>
+        
+      </div>
+
+      <p>Validating against a DTD is straight forward if the piece
+      of XML contains a <code class="literal">DOCTYPE</code> declaration with a
+      <code class="literal">SYSTEM</code> identifier that can be resolved at
+      validation time.  Simply create a <code class="literal">Validator</code>
+      object using one of the single argument constructors.</p>
+
+      <div class="example"><a name="N210C9"></a><p class="title"><b>Example&nbsp;23.&nbsp;Validating Against the DTD Defined in
+          <code class="literal">DOCTYPE</code></b></p><div class="example-contents">
+        
+        <pre class="programlisting">
+InputSource is = new InputSource(new FileInputStream(myXmlDocument));
+Validator v = new Validator(is);
+boolean isValid = v.isValid();
+</pre></div></div><br class="example-break">
+
+      <p>If the piece of XML doesn't contain any
+      <code class="literal">DOCTYPE</code> declaration at all or it contains a
+      <code class="literal">DOCTYPE</code> but you want to validate against a
+      different DTD, you'd use one of the three argument versions of
+      <code class="literal">Validator</code>'s constructors.  In this case the
+      <code class="literal">publicId</code> argument becomes the
+      <code class="literal">PUBLIC</code> and <code class="literal">systemId</code> the
+      <code class="literal">SYSTEM</code> identifier of the
+      <code class="literal">DOCTYPE</code> that is implicitly added to the piece
+      of XML.  Any existing <code class="literal">DOCTYPE</code> will be
+      removed.  The <code class="literal">systemId</code> should be a URL that
+      can be resolved by your parser.</p>
+
+      <div class="example"><a name="N21101"></a><p class="title"><b>Example&nbsp;24.&nbsp;Validating a Piece of XML that doesn't Contain a
+        <code class="literal">DOCTYPE</code></b></p><div class="example-contents">
+        
+        <pre class="programlisting">
+InputSource is = new InputSource(new FileInputStream(myXmlDocument));
+Validator v = new Validator(is,
+                            (new File(myDTD)).toURI().toURL().toString(),
+                            myPublicId);
+boolean isValid = v.isValid();
+</pre></div></div><br class="example-break">
+
+      <p>If the piece of XML already has the correct
+      <code class="literal">DOCTYPE</code> declaration but the declaration
+      either doesn't specify a <code class="literal">SYSTEM</code> identifier at
+      all or you want the <code class="literal">SYSTEM</code> identifier to
+      resolve to a different location you have two options:</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>Use one of the two argument constructors and specify
+          the alternative URL as
+          <code class="literal">systemId</code>.
+
+      <div class="example"><a name="N21125"></a><p class="title"><b>Example&nbsp;25.&nbsp;Validating Against a Local DTD</b></p><div class="example-contents">
+        
+        <pre class="programlisting">
+InputSource is = new InputSource(new FileInputStream(myXmlDocument));
+Validator v = new Validator(is,
+                            (new File(myDTD)).toURI().toURL().toString());
+boolean isValid = v.isValid();
+</pre></div></div><br class="example-break">
+        </li><li>Use a custom <code class="literal">EntityResolver</code> via
+          <code class="literal">XMLUnit.setControlEntityResolver</code> together
+          with one of the single argument constructor overloads of
+          Validator.
+
+          <p>This approach would allow you to use an OASIS
+          catalog<sup>[<a href="#ftn.N2113C" name="N2113C">8</a>]</sup>
+          in conjunction with the Apache XML Resolver
+          library<sup>[<a href="#ftn.N21142" name="N21142">9</a>]</sup>
+          to resolve the DTD location as well as the location of any
+          other entity in your piece of XML, for example.</p>
+
+      <div class="example"><a name="N21149"></a><p class="title"><b>Example&nbsp;26.&nbsp;Validating Against a DTD Using Apache's XML Resolver and
+        an XML Catalog</b></p><div class="example-contents">
+        
+        <pre class="programlisting">
+InputSource is = new InputSource(new FileInputStream(myXmlDocument));
+XMLUnit.setControlEntityResolver(new CatalogResolver());
+Validator v = new Validator(is);
+boolean isValid = v.isValid();
+</pre>
+
+        <pre class="programlisting">
+#CatalogManager.properties
+
+verbosity=1
+relative-catalogs=yes
+catalogs=/some/path/to/catalog
+prefer=public
+static-catalog=yes
+catalog-class-name=org.apache.xml.resolver.Resolver
+</pre>
+
+        <pre class="programlisting">
+&lt;!-- catalog file --&gt;
+
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"&gt;
+  &lt;public publicId="-//Some//DTD V 1.1//EN"
+          uri="mydtd.dtd"/&gt;
+&lt;/catalog&gt;
+</pre>
+
+</div></div><br class="example-break">
+
+        </li></ul></div>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="XML Schema Validation"></a>4.1.2.&nbsp;XML Schema Validation</h4></div></div></div>
+        
+      </div>
+
+      <p>In order to validate against the XML Schema language
+      Schema validation has to be enabled via the
+      <code class="literal">useXMLSchema</code> method of
+      <code class="literal">Validator</code>.</p>
+
+      <p>By default the parser will try to resolve the location of
+      Schema definition files via a <code class="literal">schemaLocation</code>
+      attribute if it is present in the piece of XML or it will try to
+      open the Schema's URI as an URL and read from it.</p>
+
+      <p>The <code class="literal">setJAXP12SchemaSource</code> method of
+      <code class="literal">Validator</code> allows you to override this
+      behavior as long as the parser supports the
+      <code class="literal">http://java.sun.com/xml/jaxp/properties/schemaSource</code>
+      property in the way described in "JAXP 1.2 Approved
+      CHANGES"<sup>[<a href="#ftn.N21186" name="N21186">10</a>]</sup>.</p>
+
+      <p><code class="literal">setJAXP12SchemaSource</code>'s argument can be
+      one of</p>
+
+      <div class="itemizedlist"><ul type="disc"><li>A <code class="literal">String</code> which contains an
+          URI.</li><li>An <code class="literal">InputStream</code> the Schema can be
+          read from.</li><li>An <code class="literal">InputSource</code> the Schema can be
+          read from.</li><li>A <code class="literal">File</code> the Schema can be
+          read from.</li><li>An array containing any of the above.</li></ul></div>
+
+      <p>If the property has been set using a
+      <code class="literal">String</code>, the <code class="literal">Validator</code>
+      class will provide its <code class="literal">systemId</code> as specified
+      in the constructor when asked to resolve it.  You must only use
+      the single argument constructors if you want to avoid this
+      behavior.  If no <code class="literal">systemId</code> has been specified,
+      the configured <code class="literal">EntityResolver</code> may still be
+      used.</p>
+
+      <div class="example"><a name="N211CC"></a><p class="title"><b>Example&nbsp;27.&nbsp;Validating Against a Local XML Schema</b></p><div class="example-contents">
+        
+        <pre class="programlisting">
+InputSource is = new InputSource(new FileInputStream(myXmlDocument));
+Validator v = new Validator(is);
+v.useXMLSchema(true);
+v.setJAXP12SchemaSource(new File(myXmlSchemaFile));
+boolean isValid = v.isValid();
+</pre></div></div><br class="example-break">
+
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="Validation: JUnit 3"></a>4.2.&nbsp;JUnit 3.x Convenience Methods</h3></div></div></div>
+      
+
+      <p>Both <code class="literal">XMLAssert</code> and
+      <code class="literal">XMLTestCase</code> provide an
+      <code class="literal">assertXMLValid(Validator)</code> method that will
+      fail if <code class="literal">Validator</code>'s
+      <code class="literal">isValid</code> method returns
+      <code class="literal">false</code>.</p>
+
+      <p>In addition several overloads of the
+      <code class="literal">assertXMLValid</code> method are provided that
+      directly correspond to similar overloads of
+      <code class="literal">Validator</code>'s constructor.  These overloads
+      don't support XML Schema validation at all.</p>
+
+      <p><code class="literal">Validator</code> itself provides an
+      <code class="literal">assertIsValid</code> method that will throw an
+      <code class="literal">AssertionFailedError</code> if validation
+      fails.</p>
+
+      <p>Neither method provides any control over the message of
+      the <code class="literal">AssertionFailedError</code> in case of a
+      failure.</p>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="Validation: Configuration"></a>4.3.&nbsp;Configuration Options</h3></div></div></div>
+      
+
+      <div class="itemizedlist"><ul type="disc"><li><code class="literal">Validator</code> uses a SAX parser
+        created by the configured SAX parser factory (see <a href="ar01s02.html#JAXP" title="2.4.1.&nbsp;JAXP">Section&nbsp;2.4.1, &ldquo;JAXP&rdquo;</a>).</li><li>It will use the "control"
+        <code class="literal">EntityResolver</code> if one has been specified
+        (see <a href="ar01s02.html#EntityResolver" title="2.4.2.&nbsp;EntityResolver">Section&nbsp;2.4.2, &ldquo;<code class="literal">EntityResolver</code>&rdquo;</a>).</li><li>The location of a DTD can be specified via
+        <code class="literal">Validator</code>'s <code class="literal">systemId</code>
+        constructor argument or a custom EntityResolver (see <a href="ar01s04.html#DTD Validation" title="4.1.1.&nbsp;DTD Validation">Section&nbsp;4.1.1, &ldquo;DTD Validation&rdquo;</a>).</li><li>XML Schema validation is enabled via
+        <code class="literal">Validator.useXMLSchema(true)</code>.</li><li>The location(s) of XML Schema document(s) can be
+        specified via
+        <code class="literal">Validator.setJAXP12SchemaSource</code> (see <a href="ar01s04.html#XML Schema Validation" title="4.1.2.&nbsp;XML Schema Validation">Section&nbsp;4.1.2, &ldquo;XML Schema Validation&rdquo;</a>).</li></ul></div>
+    </div>
+  <div class="footnotes"><br><hr align="left" width="100"><div class="footnote"><p><sup>[<a href="#N2113C" name="ftn.N2113C">8</a>] </sup><a href="http://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">http://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html</a></p></div><div class="footnote"><p><sup>[<a href="#N21142" name="ftn.N21142">9</a>] </sup><a href="http://xml.apache.org/commons/components/resolver/index.html" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">http://xml.apache.org/commons/components/resolver/index.html</a></p></div><div class="footnote"><p><sup>[<a href="#N21186" name="ftn.N21186">10</a>] </sup><a href="http://java.sun.com/webservices/jaxp/change-requests-11.html" target="_top" xmlns:xlink="http://www.w3.org/1999/xlink">http://java.sun.com/webservices/jaxp/change-requests-11.html</a></p></div></div></div><div class="navfooter"><hr><table summary="Navigation footer" width="100%"><tr><td align="left" width="40%"><a accesskey="p" href="ar01s03.html">Prev</a>&nbsp;</td><td align="center" width="20%">&nbsp;</td><td align="right" width="40%">&nbsp;<a accesskey="n" href="ar01s05.html">Next</a></td></tr><tr><td valign="top" align="left" width="40%">3.&nbsp;Comparing Pieces of XML&nbsp;</td><td align="center" width="20%"><a accesskey="h" href="index.html">Home</a></td><td valign="top" align="right" width="40%">&nbsp;5.&nbsp;XPath Tests</td></tr></table></div></body></html>

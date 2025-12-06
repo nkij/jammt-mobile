@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc>
+  <tocitem text="Introduction" target="about.html" home="true"/>
+
+  <tocitem text="Usage">
+    <tocitem text="Quick start" target="usage-general.html"/>
+    <tocitem text="The menu bar" target="usage-menubar.html"/>
+    <tocitem text="The plotting area" target="usage-plottingarea.html"/>
+    <tocitem text="Themes" target="usage-colortheme.html"/>
+    <tocitem text="Databases" target="usage-database.html"/>
+  </tocitem>
+
+  <tocitem text="ChangeLog" target="changelog.html"/>
+
+  <tocitem text="References" target="references.html"/>
+  
+  <tocitem text="Bug reports" target="bugreports.html"/>
+</toc>

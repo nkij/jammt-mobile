@@ -1,0 +1,67 @@
+<html>
+  <h1> The plotting area </h1>
+
+  <h2> General description </h2>
+  The plotting area is able to show the waist size, the gouy phase and
+  the radius of curvature depending on the propagation length z (-&gt; see
+  display settings). The status bar at the bottom will show you the 
+  beam parameters of the resulting beam (i.e. the rightmost part of the
+  beam). The area is able to show tool tips for lenses/substrates as
+  well as partial beams (i.e. the beam between two lenses). Info boxes
+  for the lenses can be permanently shown by using the info option
+  (-&gt; see 'Menu bar -&gt; Info'). By clicking on a lens it will become the current
+  lens (color changes to green). If the waist size at a lens position
+  exceeds 0.33 times the aperture of that lens, the lens color will
+  change to red, hinting a possible beam clipping at that lens.
+  <br>
+
+  <h2> Mouse and keyboard interaction </h2>
+  There are several ways to interact with the plotting area:
+
+  <h3> Mouse interaction </h3>
+  A 'Simple mouse click' on a lens will make it the current lens.
+  'Double clicking' a lens will open the 'Change lens' dialog.
+  'Dragging' a lens will change the lens position.<br>
+  You can adjust the plot ranges via the mousewheel. By simply scrolling you can
+  shift the x axis. Simultaneously pressing the CTRL key allows for zooming the
+  axis. By using the SHIFT key these actions will be performed on the y axis
+  (i.e. SHIFT-Scroll for shifting the y axis and SHIFT-CTRL-Scroll for zooming
+  the y axis).
+
+  <h3> Keyboard interaction </h3>
+  Press 'ENTER' to open the change lens dialog for the current lens.
+  Press 'DEL' to delete the current lens/substrate.<br>
+  The current lens can also be moved using the keyboard:
+  <table valign="top">
+    <tr> 
+      <td> ArrowLeft/ArrowRight: </td>
+      <td> Move the lens left/right. Simultaneously pressing 'CTRL' will increase the step size 
+        by a factor of 10. Simultaneously pressing 'Shift' will decrease the step size 
+        by a factor of 10. </td>
+    </tr> 
+    <tr>
+      <td> TAB-key: </td>
+      <td> Use 'TAB' to make the next lens the current one.
+        Use 'CTRL'-'TAB' to make the previous lens the current one. </td>
+    </tr>
+    <tr>
+      <td> Brackets (,): </td>
+      <td> Brackets are used to define cavity endmirrors. If you type '(' or
+        ')' the left or right endmirror of a cavity is defined,
+        respectively. If a cavity is correctly formed, you will be provided
+        with a dialog in which you can further specify your cavity. </td>
+    </tr>
+    <tr>
+      <td> Number keys: </td>
+      <td> Lenses/ substrates can be grouped, so that you can move them together.
+        By pressing a number key (1-9) you can add the current lens to the
+        group with the specified number. The number will pop up in the middle
+        of the lens. You can deselect a specific lens by making it current
+        (just click on it) and then pressing '0' (zero). To deselect all 
+        lenses of a specific group, select any lens from that group and 
+        press 'u'. If you want to delete all defined groups at once, press
+        'Shift'+'u'.
+      </td>
+    </tr>
+  </table>
+</html>

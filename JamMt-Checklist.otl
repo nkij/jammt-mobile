@@ -1,0 +1,9 @@
+This is a list of things you have to do
+before shooting out a new release of JamMt
+----------------------------------------
+	[_] Run all unit tests (ant test)
+	[_] Run all manual tests defined in 'resources/Manual_tests.otl'
+	[_] Update the manual and the changelog
+	[_] Update the version number
+	[_] Tag the commit with the version number
+	[_] Send an Email to { hann-ml, sim-group}@aei.mpg.de
